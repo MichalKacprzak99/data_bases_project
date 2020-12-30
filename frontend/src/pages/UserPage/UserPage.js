@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {UserInterface} from './components'
-// import {NotLoggedView} from '../../components'
 import {Redirect} from "react-router-dom";
 const UserPage = () => {
-  const [userData, setUserData] = useState(null)
+  const [userData, setUserData] = useState(false)
 
   const getUserInfo = async() => {
     const url = 'http://localhost:5432/user';
@@ -14,28 +13,20 @@ const UserPage = () => {
         body: JSON.stringify({"token": localStorage.getItem('token')})
     });
     if(response.status !== 200) {
-      return false;
+      return setUserData(false);
     } else {
-      return await response.json();  
+      return setUserData(await response.json());  
     }
   }
   useEffect(() => {
     if(!userData){
-      getUserInfo()
-      .then(result => {
-        setUserData(result);
-      })
-      .catch(e => {
-        console.log(e);
-      });
+      getUserInfo();
     } 
   },[]);
 
   return (
     <>
-    {localStorage.getItem('isLogged')==='true'? <UserInterface/> : <Redirect to="/login" />} 
-    <div>{userData?.imie}</div>
- 
+    {localStorage.getItem('isLogged')==='true'? <UserInterface userData={userData}/> : <Redirect to="/login" />} 
     </>
     );
 }
