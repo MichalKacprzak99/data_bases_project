@@ -5,6 +5,7 @@ export const Navbar = styled.nav`
 display: flex;
 overflow: hidden;
 background-color: #333;
+/* flex-direction: column; */
 a {
   letter-spacing: 2px;
   flex: 1;
