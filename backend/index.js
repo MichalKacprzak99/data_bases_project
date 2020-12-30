@@ -45,7 +45,6 @@ const loginUser = async(request, response) => {
       if(!validPassword){
         return response.status(400).json({ status: 'failed', message: "Wrong Password or Email" });
       }
-      // console.log(user.zablokowany)
       if(user.zablokowany){
         return response.status(400).json({ status: 'failed', message: "You are blocked" });
       }
@@ -98,7 +97,6 @@ const addProduct = async(request, response) =>{
   const product = request.body.product;
   pool.query('INSERT INTO "produkt" ("id_kategoria_produkt", "nazwa") VALUES ($1, $2);', [1, product], (error) => {
     if (error) {
-      console.log(error.stack)
       response.status(409).json({ status: 'failed', message: error.stack });
     } else {
       response.status(201).json({ status: 'success', message: 'Product added.' });
@@ -110,7 +108,6 @@ const addProductCategory = async(request, response) =>{
   const product_category = request.body.product_category;
   pool.query('INSERT INTO "kategoria_produkt" ("nazwa") VALUES ($1);', [product_category], (error) => {
     if (error) {
-      console.log(error.stack)
       response.status(409).json({ status: 'failed', message: error.stack });
     } else {
       response.status(201).json({ status: 'success', message: 'Product category added.' });
@@ -122,7 +119,7 @@ const addRecipeCategory = async(request, response) =>{
   const recipe_category = request.body.recipe_category;
   pool.query('INSERT INTO "kategoria_przepis" ("nazwa") VALUES ($1);', [recipe_category], (error) => {
     if (error) {
-      console.log(error.stack)
+
       response.status(409).json({ status: 'failed', message: error.stack });
     } else {
       response.status(201).json({ status: 'success', message: 'Recipe category added.' });
@@ -140,7 +137,7 @@ const addForumTopic = async(request, response) =>{
 
     pool.query('INSERT INTO "temat_forum" ("id_admin", "temat", "data_dodania", "opis") VALUES ($1, $2, to_timestamp($3), $4);', [admin_id, topic, Date.now()/1000, description], (error) => {
       if (error) {
-        console.log(error.stack)
+
         response.status(409).json({ status: 'failed', message: error.stack });
       } else {
         response.status(201).json({ status: 'success', message: 'Forum topic added.' });
@@ -182,7 +179,7 @@ const blockingUsers = async(request, response) => {
   }
   const userId = request.body.user_id;
   const toBlock = request.body.toBlock;
-  console.log(toBlock);
+
   pool.query('UPDATE "uzytkownik" SET "zablokowany"=$1 WHERE "id_uzytkownika"=$2  ;',[toBlock, userId], async(error, results) => {
     if (error) {
       return response.status(409).json({ status: 'failed', message: error.stack });
@@ -193,7 +190,102 @@ const blockingUsers = async(request, response) => {
 
 };
 
+const getInfo = async(request, response) => {
+  const token = request.body.token;
+  const category = request.body.category;
 
+  try{
+    jwt.verify(token, PrivateKey);
+
+  } catch(err) {
+    return response.status(408).json({ status: 'failed', message: err.stack });
+  }
+  pool.query(`select * from ${category};`, async(error, results) => {
+    if (error) {
+      return response.status(409).json({ status: 'failed', message: error.stack });
+    } else {
+
+      return response.status(200).json(results.rows);
+    }
+  });
+
+};
+
+const sendMessage = async(request, response) => {
+
+  const token = request.body.token;
+  const message= request.body.message;
+  try{
+    const decode = jwt.verify(token, PrivateKey);
+    pool.query(`INSERT INTO "wiadomosc_do_administracji" ("id_uzytkownika", "data_dodania", "tresc") VALUES ($1,  to_timestamp($2), $3);`, [decode._id,  Date.now()/1000, message], async(error, results) => {
+      if (error) {
+
+        return response.status(409).json({ status: 'failed', message: error.stack });
+      } else {
+  
+        return response.status(200).json({ status: 'done', message: "Message is send"});
+      }
+    });
+  } catch(err) {
+
+    return response.status(408).json({ status: 'failed', message: err.stack });
+  }
+  
+
+};
+
+const getMessages = async(request, response) => {
+
+  const token = request.body.token;
+  try{
+    jwt.verify(token, PrivateKey);
+    pool.query(`SELECT * from "wiadomosc_do_administracji"`, async(error, results) => {
+      if (error) {
+
+        return response.status(409).json({ status: 'failed', message: error.stack });
+      } else {
+  
+        return response.status(200).json(results.rows);
+      }
+    });
+  } catch(err) {
+
+    return response.status(408).json({ status: 'failed', message: err.stack });
+  }
+  
+
+};
+
+
+const addRecipe = async(request, response) => {
+
+  const token = request.body.token;
+  try{
+    const decode = jwt.verify(token, PrivateKey);
+
+    const products = request.body.products;
+    const categories = request.body.categories;
+    const user_id = decode._id;
+    const name = request.body.name;
+    const description = request.body.description;
+
+
+    // pool.query(`SELECT * from "wiadomosc_do_administracji"`, async(error, results) => {
+    //   if (error) {
+    //     console.log(error.stack)
+    //     return response.status(409).json({ status: 'failed', message: error.stack });
+    //   } else {
+  
+    //     return response.status(200).json(results.rows);
+    //   }
+    // });
+  } catch(err) {
+
+    return response.status(408).json({ status: 'failed', message: err.stack });
+  }
+  
+
+};
 
 app.route('/add_product').post(addProduct);
 app.route('/add_product_category').post(addProductCategory);
@@ -205,6 +297,10 @@ app.route('/user').post(getUserInfo);
 app.route('/loginAdmin').post(loginAdmin);
 app.route('/get_users').post(getUsers);
 app.route('/user_blocking').post(blockingUsers);
+app.route('/get_info').post( getInfo);
+app.route('/sent_message').post(sendMessage);
+app.route('/get_messages').post(getMessages);
+app.route('/add_recipe').post(addRecipe);
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
