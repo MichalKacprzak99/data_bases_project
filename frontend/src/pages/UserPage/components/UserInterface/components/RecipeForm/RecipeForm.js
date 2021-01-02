@@ -12,7 +12,7 @@ const RecipeForm = () => {
 
 
     const getInfo = async(setter, category) => {
-        const url = 'http://localhost:5432/get_info';
+        const url = 'http://localhost:5432/user/get_info';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -68,7 +68,7 @@ const RecipeForm = () => {
 
     const addRecipe = async(data) => {
         data["token"] = localStorage.getItem('token')
-        const url = 'http://localhost:5432/add_recipe';
+        const url = 'http://localhost:5432/user/add_recipe';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',

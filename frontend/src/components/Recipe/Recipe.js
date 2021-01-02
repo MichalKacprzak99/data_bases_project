@@ -22,7 +22,7 @@ const Recipe = () => {
 
     const getRecipe = async() =>{
 
-        const url = `http://localhost:5432/get_recipe?id_recipe=${id}`;
+        const url = `http://localhost:5432/recipes/get_recipe?id_recipe=${id}`;
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -45,7 +45,7 @@ const Recipe = () => {
 
     const getRecipeProducts = async() =>{
 
-        const url = `http://localhost:5432/get_recipe_products?id_recipe=${id}`;
+        const url = `http://localhost:5432/recipes/get_recipe_products?id_recipe=${id}`;
         const response = await fetch(url,{
             method: 'GET',
             credentials: 'omit',
@@ -58,7 +58,7 @@ const Recipe = () => {
 
     const getRecipeCategories = async() =>{
 
-        const url = `http://localhost:5432/get_recipe_categories?id_recipe=${id}`;
+        const url = `http://localhost:5432/recipes/get_recipe_categories?id_recipe=${id}`;
         const response = await fetch(url,{
             method: 'GET',
             credentials: 'omit',
@@ -74,7 +74,7 @@ const Recipe = () => {
     const likeRecipe = async(data) => {
 
         data["token"] = localStorage.getItem('token')
-        const url = `http://localhost:5432/like_recipe?id_recipe=${id}`;
+        const url = `http://localhost:5432/recipes/like_recipe?id_recipe=${id}`;
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -89,7 +89,7 @@ const Recipe = () => {
     }
 
     const getComments = async() => {
-        const url = `http://localhost:5432/get_comments?id_recipe=${id}`;
+        const url = `http://localhost:5432/recipes/get_comments?id_recipe=${id}`;
         const response = await fetch(url,{
             method: 'GET',
             credentials: 'omit',
@@ -105,7 +105,7 @@ const Recipe = () => {
     const addComment = async(data) => {
 
         data["token"] = localStorage.getItem('token')
-        const url = `http://localhost:5432/add_comment?id_recipe=${id}`;
+        const url = `http://localhost:5432/recipes/add_comment?id_recipe=${id}`;
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -120,7 +120,7 @@ const Recipe = () => {
     }
 
     const dislikeRecipe = async() => {
-        const url = `http://localhost:5432/dislike_recipe?id_recipe=${id}`;
+        const url = `http://localhost:5432/recipes/dislike_recipe?id_recipe=${id}`;
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -195,6 +195,7 @@ const Recipe = () => {
             return <div>{nazwa}:{ilosc+jednostka}</div>
         })}
         <button onClick={()=>setShowComments(showComments => !showComments)}>Show comments</button>
+        {console.log(comments)}
         {showComments ? renderComments() : null}
         {getUserOptions()} 
     </> 

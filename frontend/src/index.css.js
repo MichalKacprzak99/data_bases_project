@@ -11,9 +11,13 @@ export default createGlobalStyle`
     height: 100%;
   }
   body {
+    min-height: 100vh;
+    display: flex;
+
+        height: 100%;
     display: inline;
-  min-width: 100%;
-  min-height: 100%;
+  /* min-width: 100%;
+  min-height: 100%; */
   background-color: rgba(250, 204, 204, 0.979);
   font-family: cursive;
   font-size: 20px;

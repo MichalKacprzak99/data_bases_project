@@ -6,7 +6,7 @@ const RecipePage = (props) => {
     const [recipes, setRecipes] = useState([])
     const onlyLiked = props.onlyLiked || false;
     const getRecipes = async() =>{
-        const url = 'http://localhost:5432/get_recipes';
+        const url = 'http://localhost:5432/recipes/get_recipes';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',

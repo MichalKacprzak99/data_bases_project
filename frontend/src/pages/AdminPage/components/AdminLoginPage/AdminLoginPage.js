@@ -12,7 +12,7 @@ const AdminLoginPage = () => {
     const [isAdminLogin, setAdminLogin] = useState(initAdminItem)
 
     const handleLogin = async (data, e) => {
-        const url = 'http://localhost:5432/loginAdmin';
+        const url = 'http://localhost:5432/admin/loginAdmin';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',

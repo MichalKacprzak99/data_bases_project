@@ -6,7 +6,7 @@ const RecipePage = () => {
     const [recipes, setRecipes] = useState([])
 
     const getRecipes = async() =>{
-        const url = 'http://localhost:5432/get_recipes';
+        const url = 'http://localhost:5432/recipes/get_recipes';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -24,7 +24,7 @@ const RecipePage = () => {
       },[recipes.lenght]);
 
     const acceptRecipe = async(id) => {
-        const url = `http://localhost:5432/accept_recipe?id_recipe=${id}`;
+        const url = `http://localhost:5432/recipes/accept_recipe?id_recipe=${id}`;
         const response = await fetch(url,{
             method: 'GET',
             credentials: 'omit',

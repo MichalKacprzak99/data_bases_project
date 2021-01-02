@@ -15,7 +15,7 @@ const Adder = (props) => {
     
     const handleAdding = async (data, e) => {
         data["token"] = localStorage.getItem('admin-token')
-        const url = `http://localhost:5432/add_${toAdd.replace(/\s/g, '_')}`;
+        const url = `http://localhost:5432/admin/add_${toAdd.replace(/\s/g, '_')}`;
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',

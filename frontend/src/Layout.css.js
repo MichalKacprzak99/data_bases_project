@@ -5,7 +5,6 @@ export const Navbar = styled.nav`
 display: flex;
 overflow: hidden;
 background-color: #333;
-/* flex-direction: column; */
 a {
   letter-spacing: 2px;
   flex: 1;
@@ -37,18 +36,14 @@ export const Header = styled.div`
 
 
 export const Footer = styled.footer`
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    /* height: 100px; */
-    width: 100%;
-    overflow: hidden;
-    padding: 5px 0;
+
+  text-align: center;
+  width: 100%;
   background-color: #333;
   color: white;
   text-align: center;
-`;
 
+`;
 
 export const Center = styled.div`
 

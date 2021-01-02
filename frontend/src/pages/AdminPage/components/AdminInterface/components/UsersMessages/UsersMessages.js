@@ -5,7 +5,7 @@ const UsersController = () => {
   const [usersMessages, setUsersMessages] = useState(null)
 
   const getUsersMessages = async() => {
-    const url = 'http://localhost:5432/get_messages';
+    const url = 'http://localhost:5432/admin/get_messages';
     const response = await fetch(url,{
         method: 'POST',
         credentials: 'omit',

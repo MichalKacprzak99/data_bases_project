@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import { Redirect } from "react-router-dom";
-// import { Button } from './UserInterface.css';
+import React from 'react';
 const NotLoggedView = () => {
 
     return (

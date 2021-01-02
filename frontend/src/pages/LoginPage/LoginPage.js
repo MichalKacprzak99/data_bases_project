@@ -9,7 +9,7 @@ const LoginPage = () => {
     const [isLogin, setLogin] = useState(localStorage.getItem('isLogged'))
 
     const handleLogin = async (data, e) => {
-        const url = 'http://localhost:5432/login';
+        const url = 'http://localhost:5432/user/login';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',

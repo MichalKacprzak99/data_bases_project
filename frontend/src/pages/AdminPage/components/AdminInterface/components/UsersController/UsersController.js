@@ -6,7 +6,7 @@ const UsersController = () => {
 
   const getUsersInfo = async() => {
     console.log("wywolanie")
-    const url = 'http://localhost:5432/get_users';
+    const url = 'http://localhost:5432/admin/get_users';
     const response = await fetch(url,{
         method: 'POST',
         credentials: 'omit',
@@ -21,7 +21,7 @@ const UsersController = () => {
   }
 
   const handleBlocking = async(e, toBlock) => {
-    const url = 'http://localhost:5432/user_blocking';
+    const url = 'http://localhost:5432/admin/user_blocking';
     const response = await fetch(url,{
         method: 'POST',
         credentials: 'omit',

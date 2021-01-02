@@ -11,7 +11,7 @@ const RegisterPage = () => {
   const { push } = useHistory()
 
   const handleRegister = async (data, e) => {
-      const url = 'http://localhost:5432/register';
+      const url = 'http://localhost:5432/user/register';
       const response = await fetch(url,{
           method: 'POST',
           credentials: 'omit',

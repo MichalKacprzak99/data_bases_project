@@ -5,7 +5,7 @@ const UserPage = () => {
   const [userData, setUserData] = useState(false)
 
   const getUserInfo = async() => {
-    const url = 'http://localhost:5432/user';
+    const url = 'http://localhost:5432/user/user';
     const response = await fetch(url,{
         method: 'POST',
         credentials: 'omit',
