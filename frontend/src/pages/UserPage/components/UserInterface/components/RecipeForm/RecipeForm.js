@@ -4,12 +4,10 @@ import { Form, Header, Button} from './RecipeForm.css';
 
 const RecipeForm = () => {
     const productUnits = ["kg", "L", "g"]
-    const { register, handleSubmit} = useForm();
+    const { register, handleSubmit, reset} = useForm();
     const [message, setMeesage] = useState("")
-    const [productCategories, setProductCategories] = useState([])
     const [recipeCategories, setRecipeCategories] = useState([])
     const [availableProducts, setAvailableProducts] = useState([])
-    // const [recipeCategories, setRecipeCategories] = useState([])
     const [productAdder, setProductAdder] = useState([])
 
 
@@ -34,9 +32,15 @@ const RecipeForm = () => {
         const tmpAdder = <div key={productAdder.length}>
             
             <label>Add product</label> 
-            <select ref={register} name={`products[${productAdder.length}].name`}>
+            <select ref={register} name={`products[${productAdder.length}].product`}>
+                
             {availableProducts.map(product => {
-                return <option key={product.id_produkt} value={product.nazwa}>{product.nazwa}</option>
+                return <option 
+                            key={product.id_produkt} 
+                            value={product.nazwa}>
+                            {product.nazwa}
+                    </option>
+
             })}
             </select><br/>
             <label>Add product quantity</label> 
@@ -47,19 +51,11 @@ const RecipeForm = () => {
                 return <option key={unit} value={unit}>{unit}</option>
             })}
             </select><br/>
-            <label>Add product category</label>
-            <select ref={register} name={`products[${productAdder.length}].category`}>
-            {productCategories.map(category=> {
-                return <option key={category.id_kategoria_produkt} value={category.nazwa}>{category.nazwa}</option>
-            })}
-            </select><br/>
+
         </div>
         setProductAdder(productAdder => [...productAdder,tmpAdder ])
     }
     useEffect(() => {
-        if(productCategories.lenght !== 0){
-            getInfo(setProductCategories, "kategoria_produkt")
-        } 
         if(recipeCategories.lenght !== 0){
             getInfo(setRecipeCategories, "kategoria_przepis")
 
@@ -68,11 +64,10 @@ const RecipeForm = () => {
             getInfo(setAvailableProducts, "produkt")
 
         } 
-      },[]);
+      },[recipeCategories.lenght, availableProducts.lenght]);
 
     const addRecipe = async(data) => {
         data["token"] = localStorage.getItem('token')
-        // console.log(data)
         const url = 'http://localhost:5432/add_recipe';
         const response = await fetch(url,{
             method: 'POST',
@@ -80,21 +75,11 @@ const RecipeForm = () => {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)
         });
-        // const res = await response.json()
+        const res = await response.json()
+        setMeesage(res.message);
 
-        // if(response.status === 409) {
-        //   setMeesage(res.message);
-        // } 
-        // else if (response.status === 200){
-        //   e.target.reset()   
-        //   localStorage.setItem('token', res.token);
-        //   localStorage.setItem('isLogged', 'true');
-        //   window.dispatchEvent( new Event('storage') );
-        // //   setLogin(localStorage.getItem('isLogged'))
-        // }
-        // else {
-        //   setMeesage(res.message);
-        // }
+        if (response.status === 200) reset()   
+
     }
     return (
         <>
