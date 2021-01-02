@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { OptionArea, Navbar} from './AdminInterface.css';
-import {Adder, UsersController, UsersMessages} from './components'
+import { Navbar } from './AdminInterface.css';
+import { Adder, UsersController, UsersMessages, RecipeAcceptPage } from './components'
 const AdminInterface = () => {
     const [adminActivity, setAdminActivity] = useState(null)
     const clickHandler = (e) => {
@@ -14,6 +14,9 @@ const AdminInterface = () => {
         }
         if(id === 6){
             setAdminActivity(<UsersMessages/>)
+        }
+        if(id === 1){
+            setAdminActivity(<RecipeAcceptPage/>)
         }
     }
     return (

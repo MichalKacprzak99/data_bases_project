@@ -70,8 +70,10 @@ const UsersController = () => {
       <>
         <h1 id='title'>React Dynamic Table</h1>
             <Table>
-               <tbody>
-                  <tr>{renderTableHeader()}</tr>
+              <thead>
+                <tr>{renderTableHeader()}</tr>
+              </thead>
+               <tbody>  
                   {renderTableData()}
                </tbody>
             </Table>
