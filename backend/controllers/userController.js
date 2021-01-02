@@ -52,6 +52,7 @@ const getUserInfo = async(request, response) => {
     const user_id = decoded._id
     pool.query('SELECT * FROM "uzytkownik" WHERE "id_uzytkownika"=$1;', [user_id], async(error, results) => {
       if (error) {
+        console.log(error.stack)
         return response.status(409).json({ status: 'failed', message: error.stack });
       } else {
         const user = results.rows[0];
@@ -77,6 +78,7 @@ const getInfo = async(request, response) => {
   }
   pool.query(`SELECT * FROM ${category};`, async(error, results) => {
     if (error) {
+      console.log(error.stack)
       return response.status(409).json({ status: 'failed', message: error.stack });
     } else {
 
@@ -110,12 +112,59 @@ const sendMessage = async(request, response) => {
 
 };
 
+const addTrackedProduct = async(request, response) => {
+
+  const token = request.body.token;
+  const product= request.body.product;
+  try{
+    const decode = jwt.verify(token, PrivateKey);
+    pool.query(`SELECT dodaj_sledzony_produkt($1,$2)`, [decode._id,  product], async(error, results) => {
+      if (error) {
+
+        return response.status(409).json({ status: 'failed', message: error.stack });
+      } else {
+        return response.status(200).json({ status: 'done', message: "Product is tracked"});
+      }
+    });
+  } catch(err) {
+
+    return response.status(408).json({ status: 'failed', message: err.stack });
+  }
+  
+
+};
+
+const getTrackedProducts = async(request, response) => {
+
+  const token = request.body.token;
+
+  try{
+    const decode = jwt.verify(token, PrivateKey);
+    pool.query(`SELECT nazwa, pasujacy_przepis, data_dodania, data_dopasowania FROM sledzone_produkty JOIN produkt USING (id_produkt) WHERE id_uzytkownika=$1`, [decode._id], async(error, results) => {
+      if (error) {
+
+        return response.status(409).json({ status: 'failed', message: error.stack });
+      } else {
+        return response.status(200).json(results.rows);
+      }
+    });
+  } catch(err) {
+
+    return response.status(408).json({ status: 'failed', message: err.stack });
+  }
+  
+
+};
+
+
 export default {
     sendMessage,
     loginUser,
     registerUser,
     getUserInfo,
     getInfo,
+    addTrackedProduct,
+    getTrackedProducts,
 }
 
 

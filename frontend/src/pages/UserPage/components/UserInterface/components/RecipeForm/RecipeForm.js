@@ -68,7 +68,7 @@ const RecipeForm = () => {
 
     const addRecipe = async(data) => {
         data["token"] = localStorage.getItem('token')
-        const url = 'http://localhost:5432/user/add_recipe';
+        const url = 'http://localhost:5432/recipes/add_recipe';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
