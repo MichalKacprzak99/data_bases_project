@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import { Table} from './RecipePage.css';
-
-import { Link } from 'react-router-dom';
+import {Recipe} from '../../components'
+import { Switch, Route, Link} from 'react-router-dom';
 const RecipePage = (props) => {
     const [recipes, setRecipes] = useState([])
+    // console.log(props)
     const onlyLiked = props.onlyLiked || false;
     const getRecipes = async() =>{
         const url = 'http://localhost:5432/recipes/get_recipes';
@@ -46,24 +47,34 @@ const RecipePage = (props) => {
           } 
     }
 
-
+    const RenderRecipesTable = () => {
+       return <> <div>Sortowanie</div> 
+        <div>Przepisy</div>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>id </th> 
+                        <th>nazwa </th>    
+                        <th>data dodania </th>
+                        <th>cały przepis </th>
+                    </tr>
+                </thead>
+                <tbody>  
+                    {renderRecipe()}
+                </tbody>
+            </Table> </>
+    }
     return (
     <> 
-    <div>Sortowanie</div> 
-    <div>Przepisy</div>
-        <Table>
-            <thead>
-                <tr>
-                    <th>id </th> 
-                    <th>nazwa </th>    
-                    <th>data dodania </th>
-                    <th>cały przepis </th>
-                </tr>
-            </thead>
-            <tbody>  
-                {renderRecipe()}
-            </tbody>
-        </Table>
+        {/* <RenderRecipesTable/> */}
+        <Switch>
+            <Route exact path={["/recipes", "/user"]}>
+            <RenderRecipesTable />
+          </Route>
+          {console.log("strona")}
+            <Route exact path="/recipes/recipe" component={Recipe}/>
+
+            </Switch>
     </>
     );
 }

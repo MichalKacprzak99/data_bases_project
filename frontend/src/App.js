@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import GlobalStyles from'./index.css.js';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route, Link, BrowserRouter } from 'react-router-dom';
 import {Header, Navbar, Footer, Center} from './Layout.css';
-import { HomePage, LoginPage, RegisterPage, LogoutPage, UserPage, AdminPage, RecipePage } from './pages';
-import {Recipe} from './components'
+import { HomePage, LoginPage, RegisterPage, LogoutPage, UserPage, AdminPage, RecipePage, ForumPage} from './pages';
+
 
 
 const App = () => {
@@ -17,6 +17,7 @@ const App = () => {
 
   return (
     <>
+            <BrowserRouter>
       <GlobalStyles />
 
       <Header>Blog</Header>
@@ -30,19 +31,23 @@ const App = () => {
             <Link to='/forum'>Forum</Link>
       </Navbar>
       <Center>
+
+
       <Switch>
-            <Route path='/' exact component={HomePage} />
-            <Route path='/login' exact component={LoginPage} /> 
-            <Route path='/logout' exact component={LogoutPage} />           
-            <Route path='/register' exact component={RegisterPage} />
-            <Route path='/user' exact component={UserPage} />
-            {/* <Route path='/user/recipes' exact component={RecipePage} /> */}
-            <Route path='/admin' exact component={AdminPage} />
-            <Route path='/recipes' exact component={RecipePage} />
-            <Route path='/recipes/recipe' exact component={Recipe} />
+            <Route exact path='/' component={HomePage} />
+            <Route  path='/forum' component={ForumPage} />
+            <Route  path='/login' component={LoginPage} /> 
+            <Route  path='/logout' component={LogoutPage} />           
+            <Route  path='/register' component={RegisterPage} />
+            <Route path='/user' component={UserPage} />
+            <Route path='/admin'  component={AdminPage} />
+            <Route path='/recipes' component={RecipePage} />
       </Switch>
+              
+      
       </Center>
       <Footer>Author: Michał Kacprzak</Footer>
+      </BrowserRouter>
     </>
   );
 }
