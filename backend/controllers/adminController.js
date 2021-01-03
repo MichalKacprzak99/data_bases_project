@@ -25,10 +25,11 @@ const loginAdmin = async(request, response) => {
     });
   };
 
-
+// umozliwic dodawania kategorii
 const addProduct = async(request, response) =>{
   const product = request.body.product;
-  pool.query('INSERT INTO "produkt" ("id_kategoria_produkt", "nazwa") VALUES ($1, $2);', [1, product], (error) => {
+  const productCategory = request.body.product_category;
+  pool.query('INSERT INTO "produkt" ("id_kategoria_produkt", "nazwa") VALUES ($1, $2);', [productCategory, product], (error) => {
     if (error) {
       response.status(409).json({ status: 'failed', message: error.stack });
     } else {
@@ -143,6 +144,28 @@ const getMessages = async(request, response) => {
   
 
 };
+
+const getProductsCetegories = async(request, response) => {
+
+  const token = request.body.token;
+  try{
+    jwt.verify(token, PrivateKey);
+    pool.query(`SELECT * FROM kategoria_produkt`, async(error, results) => {
+      if (error) {
+
+        return response.status(409).json({ status: 'failed', message: error.stack });
+      } else {
+  
+        return response.status(200).json(results.rows);
+      }
+    });
+  } catch(err) {
+
+    return response.status(408).json({ status: 'failed', message: err.stack });
+  }
+  
+
+};
 export default {
   getMessages,
   blockingUsers,
@@ -152,4 +175,5 @@ export default {
   addProductCategory,
   addProduct,
   addRecipeCategory,
+  getProductsCetegories
 }

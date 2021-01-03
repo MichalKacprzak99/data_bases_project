@@ -11,6 +11,7 @@ router.post('/loginAdmin', adminController.loginAdmin);
 router.post('/get_users', adminController.getUsers);
 router.post('/user_blocking', adminController.blockingUsers);
 router.post('/get_messages', adminController.getMessages);
+router.post('/get_product_categories', adminController.getProductsCetegories);
 
 
 
