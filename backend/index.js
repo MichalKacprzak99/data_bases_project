@@ -20,11 +20,12 @@ app.use(bodyParser.json());
 import recipeRouter from './routes/recipeRouter.js';
 import adminRouter from './routes/adminRouter.js';
 import userRouter from './routes/userRouter.js';
-
+import forumRouter from './routes/forumRouter.js';
 
 app.use('/recipes', recipeRouter)
 app.use('/admin', adminRouter)
 app.use('/user', userRouter)
+app.use('/forum', forumRouter)
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
