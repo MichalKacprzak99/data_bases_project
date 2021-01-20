@@ -14,5 +14,6 @@ router.post('/add_comment', recipeController.addComment);
 router.get('/get_comments', recipeController.getComments);
 router.get('/accept_recipe', recipeController.acceptRecipe);
 router.post('/filter_recipes', recipeController.filterRecipes);
-router.get('/reject_recipe', recipeController.rejectRecipe);
+router.post('/reject_recipe', recipeController.rejectRecipe);
+router.get('/',recipeController.getter);
 export default router;

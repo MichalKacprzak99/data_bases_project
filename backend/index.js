@@ -9,7 +9,7 @@ dotenv.config();
 
 
 const app = express();
-const PORT = process.env.DB_PORT || 8000;
+const PORT = process.env.PORT || 8000;
 
 app.use(cookieParser());
 app.use(cors())
@@ -26,7 +26,10 @@ app.use('/recipes', recipeRouter)
 app.use('/admin', adminRouter)
 app.use('/user', userRouter)
 app.use('/forum', forumRouter)
-
+app.get('/', (req, res) => {
+  res.send(`<h1>Hello World! ${process.env.DB_USER}</h1>`)
+})
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
+

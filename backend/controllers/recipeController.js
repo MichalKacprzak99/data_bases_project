@@ -346,6 +346,9 @@ const filterRecipes = async(request, response) => {
     }
 
 }
+const getter=async(request, response)=>{
+  return response.status(200).json({"ala": "ala"})
+}
 
 export default {
     addRecipe,
@@ -360,4 +363,5 @@ export default {
     getRecipe,
     filterRecipes,
     rejectRecipe,
+    getter,
 }

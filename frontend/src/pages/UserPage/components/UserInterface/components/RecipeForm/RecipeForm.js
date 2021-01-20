@@ -12,7 +12,7 @@ const RecipeForm = () => {
 
 
     const getInfo = async(setter, category) => {
-        const url = 'http://localhost:5432/user/get_info';
+        const url = 'https://afternoon-hamlet-21659.herokuapp.com/user/get_info';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -68,7 +68,7 @@ const RecipeForm = () => {
 
     const addRecipe = async(data, e) => {
         data["token"] = localStorage.getItem('token')
-        const url = 'http://localhost:5432/recipes/add_recipe';
+        const url = 'https://afternoon-hamlet-21659.herokuapp.com/recipes/add_recipe';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',

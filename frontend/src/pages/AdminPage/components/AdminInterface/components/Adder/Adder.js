@@ -12,7 +12,7 @@ const Adder = (props) => {
     
     const handleAdding = async (data, e) => {
         data["token"] = localStorage.getItem('admin-token')
-        const url = `http://localhost:5432/admin/add_${toAdd.replace(/\s/g, '_')}`;
+        const url = `https://afternoon-hamlet-21659.herokuapp.com/admin/add_${toAdd.replace(/\s/g, '_')}`;
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -35,7 +35,7 @@ const Adder = (props) => {
     
   const getProductCategories = async() => {
 
-    const url = `http://localhost:5432/admin/get_product_categories`;
+    const url = `https://afternoon-hamlet-21659.herokuapp.com/admin/get_product_categories`;
     const response = await fetch(url,{
         method: 'POST',
         credentials: 'omit',

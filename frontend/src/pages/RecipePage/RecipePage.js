@@ -11,7 +11,7 @@ const RecipePage = (props) => {
 
     const onlyLiked = props.onlyLiked || false;
     const getRecipes = async() =>{
-        const url = 'http://localhost:5432/recipes/get_recipes';
+        const url = 'https://afternoon-hamlet-21659.herokuapp.com/recipes/get_recipes';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -25,7 +25,7 @@ const RecipePage = (props) => {
 
     const getProductCategories = async() => {
 
-        const url = `http://localhost:5432/admin/get_product_categories`;
+        const url = `https://afternoon-hamlet-21659.herokuapp.com/admin/get_product_categories`;
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -42,7 +42,7 @@ const RecipePage = (props) => {
 
       const getRecipeCategories = async() => {
 
-        const url = `http://localhost:5432/admin/get_recipe_categories`;
+        const url = `https://afternoon-hamlet-21659.herokuapp.com/admin/get_recipe_categories`;
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -114,7 +114,7 @@ const RecipePage = (props) => {
 
     const searchRecipes = async(data) => {
 
-        const url = 'http://localhost:5432/recipes/filter_recipes';
+        const url = 'https://afternoon-hamlet-21659.herokuapp.com/recipes/filter_recipes';
         data["status"]= "zaakceptowany"
         data["onlyLiked"]=onlyLiked
         data["token"] = localStorage.getItem('token')

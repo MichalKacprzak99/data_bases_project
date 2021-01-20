@@ -12,7 +12,7 @@ const AdminLoginPage = () => {
     const [isAdminLogin, setAdminLogin] = useState(initAdminItem)
 
     const handleLogin = async (data, e) => {
-        const url = 'http://localhost:5432/admin/loginAdmin';
+        const url = 'https://afternoon-hamlet-21659.herokuapp.com/admin/loginAdmin';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',

@@ -15,7 +15,7 @@ const ForumTopic = () => {
   const { register, handleSubmit} = useForm();
 
     const getComments = async() => {
-    const url = `http://localhost:5432/forum/get_comments?id_topic=${id}`;
+    const url = `https://afternoon-hamlet-21659.herokuapp.com/forum/get_comments?id_topic=${id}`;
     const response = await fetch(url,{
         method: 'GET',
         credentials: 'omit',
@@ -31,7 +31,7 @@ const ForumTopic = () => {
     const addComment = async(data) => {
 
       data["token"] = localStorage.getItem('token')
-      const url = `http://localhost:5432/forum/add_comment?id_topic=${id}`;
+      const url = `https://afternoon-hamlet-21659.herokuapp.com/forum/add_comment?id_topic=${id}`;
       const response = await fetch(url,{
           method: 'POST',
           credentials: 'omit',

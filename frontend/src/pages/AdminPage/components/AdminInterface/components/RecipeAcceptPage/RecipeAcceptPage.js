@@ -6,7 +6,7 @@ const RecipePage = () => {
     const [recipes, setRecipes] = useState([])
 
     const getRecipes = async() =>{
-        const url = 'http://localhost:5432/recipes/get_recipes';
+        const url = 'https://afternoon-hamlet-21659.herokuapp.com/recipes/get_recipes';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -24,7 +24,7 @@ const RecipePage = () => {
       },[recipes.lenght]);
 
     const acceptRecipe = async(id) => {
-        const url = `http://localhost:5432/recipes/accept_recipe?id_recipe=${id}`;
+        const url = `https://afternoon-hamlet-21659.herokuapp.com/recipes/accept_recipe?id_recipe=${id}`;
         const response = await fetch(url,{
             method: 'GET',
             credentials: 'omit',
@@ -35,7 +35,7 @@ const RecipePage = () => {
     }
 
     const rejectRecipe = async(id) => {
-        const url = `http://localhost:5432/recipes/reject_recipe?id_recipe=${id}`;
+        const url = `https://afternoon-hamlet-21659.herokuapp.com/recipes/reject_recipe?id_recipe=${id}`;
         const response = await fetch(url,{
             method: 'GET',
             credentials: 'omit',

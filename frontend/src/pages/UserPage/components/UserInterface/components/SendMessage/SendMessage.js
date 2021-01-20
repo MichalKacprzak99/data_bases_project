@@ -9,7 +9,7 @@ const SendMessage = () => {
 
     const sendMessage = async(data) => {
         data["token"] = localStorage.getItem('token')
-        const url = 'http://localhost:5432/user/sent_message';
+        const url = 'https://afternoon-hamlet-21659.herokuapp.com/user/sent_message';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
