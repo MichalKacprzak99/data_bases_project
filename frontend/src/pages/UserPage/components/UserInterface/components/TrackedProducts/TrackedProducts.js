@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { useForm } from "react-hook-form";
-import { Form, Header, Button} from './TrackedProducts.css';
-
+import { Form, Header, Button, Table} from './TrackedProducts.css';
+import {Link} from 'react-router-dom';
 const TrackedProducts = () => {
     const [availableProducts, setAvailableProducts] = useState([])
     const { register,reset, handleSubmit} = useForm();
@@ -61,22 +61,61 @@ const TrackedProducts = () => {
         if(trackedProducts.lenght !== 0){
             getTrackedProducts()
         }
-      },[availableProducts.lenght, trackedProducts.lenght]);
+    },[availableProducts.lenght, trackedProducts.lenght]);
 
 
+    const RenderTrackedProductsTable = () => {
+        return <> 
+            <Table>
+                <thead>
+                    <tr>
+                        <th>nazwa </th>    
+                        <th>data dodania </th>
+                        <th>data dopasowania </th>
+                        <th>Dopasowany przepis </th>
+                    </tr>
+                </thead>
+                <tbody>  
+                    {renderTrackedProduct()}
+                </tbody>
+            </Table> </>
+     }
+
+    const renderTrackedProduct = () =>{
+        if(trackedProducts.lenght!==0){
+            return trackedProducts.map((trackedProduct) => {
+              const {pasujacy_przepis, nazwa, data_dodania, data_dopasowania } = trackedProduct
+              const addedDate = new Date(data_dodania);
+              let matchedDateRepr
+              let linkToRecipe
+              if (data_dopasowania){
+                const matchedDate = new Date(data_dopasowania);
+                matchedDateRepr = matchedDate.getDate() + '/' + ( matchedDate.getMonth() + 1) + '/' +   matchedDate.getFullYear()
+                linkToRecipe = <Link to={`/recipes/recipe?id=${pasujacy_przepis}`}>Pokaż więcej</Link>
+            } else{
+                matchedDateRepr = linkToRecipe= "Brak pasującego przepisu"
+              }
+              
+
+                return (
+                    <tr key={nazwa}>
+                        <td>{nazwa}</td>
+                        <td>{( addedDate.getDate() + '/' + ( addedDate.getMonth() + 1) + '/' +   addedDate.getFullYear())}</td>
+                        <td>{matchedDateRepr}</td>
+                        <td>{linkToRecipe}</td>
+                    </tr>
+                  ); 
+            })
+          } 
+    }
+    
     return (
         <>
-       <div>Tracked Products</div> 
+        {RenderTrackedProductsTable()}
        <Form onSubmit={handleSubmit(addTrackedProduct)} >
-       <Header>What product you wanna track?</Header><br/>
-       {trackedProducts.map((trackedProduct)=>{
-            const {nazwa, pasujacy_przepis, data_dopasowania, data_dodania} = trackedProduct
-            console.log(nazwa, pasujacy_przepis, data_dopasowania, data_dodania)
-            // const readable_data_dodania = new Date(data_dodania);
-            // const readable_data_dopasowania = new Date(data_dopasowania);
-            // console.log(readable_data_dopasowania)
-       })}
-       <label>Add product </label> 
+       <Header>Jaki produkt chcesz śledzić?</Header><br/>
+    
+       <label>Wybierz produkt </label> 
         <select ref={register} name="product">
             {availableProducts.map(product => {
                 return <option 
@@ -88,7 +127,7 @@ const TrackedProducts = () => {
             })}   
 
         </select><br/>
-        <Button type="submit">Track</Button>  
+        <Button type="submit">Śledz</Button>  
            <p>{message}</p>
        </Form>
        </>
