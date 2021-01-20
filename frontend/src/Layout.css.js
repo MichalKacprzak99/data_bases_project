@@ -37,6 +37,7 @@ export const Header = styled.div`
 
 export const Footer = styled.footer`
 
+  height: 30px;
   text-align: center;
   width: 100%;
   background-color: #333;
@@ -49,7 +50,12 @@ export const Center = styled.div`
 
   display: flex;
   flex-direction: column;
+  padding-bottom: 30px;
 
+`;
+export const Content = styled.div`
 
+  min-height: 100%;
+  margin-bottom: -30px;
 
 `;

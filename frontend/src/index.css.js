@@ -2,22 +2,15 @@ import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
 
-  * {    
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-  }
-  html{
-    height: 100%;
-  }
+ 
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
   body {
-    min-height: 100vh;
     display: flex;
-
-        height: 100%;
     display: inline;
-  /* min-width: 100%;
-  min-height: 100%; */
+    text-align: center;
   background-color: rgba(250, 204, 204, 0.979);
   font-family: cursive;
   font-size: 20px;
