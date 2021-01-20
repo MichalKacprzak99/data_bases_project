@@ -12,6 +12,8 @@ router.post('/get_users', adminController.getUsers);
 router.post('/user_blocking', adminController.blockingUsers);
 router.post('/get_messages', adminController.getMessages);
 router.post('/get_product_categories', adminController.getProductsCetegories);
+router.post('/get_recipe_categories', adminController.getRecipeCetegories);
+router.post('/get_recipe', adminController.getRecipe);
 
 
 
