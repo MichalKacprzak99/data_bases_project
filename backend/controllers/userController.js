@@ -13,11 +13,12 @@ const registerUser = (request, response) => {
     const surname = request.body.surname;
     const email = request.body.email;
     const hashedPassword = bcrypt.hashSync(request.body.password, 10);
-    pool.query('INSERT INTO "uzytkownik" ("pseudonim", "imie", "nazwisko", "email", "haslo") VALUES ($1, $2, $3, $4, $5);', [user_name, name, surname, email, hashedPassword], (error) => {
+    pool.query('INSERT INTO "uzytkownik" ("pseudonim", "imie", "nazwisko", "email", "haslo") VALUES ($1, $2, $3, $4, $5);', [user_name, name, surname, email, hashedPassword], (error, results) => {
       if (error) {
-        response.status(409).json({ status: 'failed', message: error.stack });
+        console.log(error.message)
+        response.status(409).json({ status: 'failed', message: error.message });
       } else {
-        response.status(201).json({ status: 'success', message: 'Customer added.' });
+        response.status(200).json({ status: 'success', message: 'Użytkownik dodany.' });
       }
     });
   };
@@ -29,6 +30,9 @@ const loginUser = async(request, response) => {
     if (error) {
       return response.status(409).json({ status: 'failed', message: error.stack });
     } else {
+      if(typeof results == 'undefined'){
+        return response.status(400).json({ status: 'failed', message: "Wrong Password or Email" });
+      }
       const user = results.rows[0];
       const validPassword = await bcrypt.compare(request.body.password, user.haslo);
       if(!validPassword){
