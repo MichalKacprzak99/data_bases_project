@@ -41,13 +41,16 @@ const UsersController = () => {
     if(usersMessages!=null){
       return usersMessages.map((message) => {
         const {id_wiadomosc, id_uzytkownika, data_dodania, tresc } = message
+        const date = new Date(data_dodania);
         return (
           <tr key={id_wiadomosc}>
               <td>{id_wiadomosc}</td>
               <td>{id_uzytkownika}</td>
-              <td>{data_dodania}</td>
-              <td>{tresc}</td>
-              {/* <td><button id={id_uzytkownika} onClick={(e) => handleBlocking(e,!zablokowany)}>{zablokowany ? "Odblokuj"  : "Zablokuj"}</button></td> */}
+              <td>{(date.getDate() + '/' + (date.getMonth() + 1) + '/' +  date.getFullYear())}</td>
+              <td><textarea readOnly rows = "5" cols = "60" name = "description" value={tresc}>
+            
+         </textarea></td>
+            
           </tr>
         )
       })
@@ -56,13 +59,12 @@ const UsersController = () => {
 
     return (
       <>
-        <h1 id='title'>React Dynamic Table</h1>
-            <Table>
-               <tbody>
-                  <tr>{renderTableHeader()}</tr>
-                  {renderTableData()}
-               </tbody>
-            </Table>
+        <Table>
+            <tbody>
+              <tr>{renderTableHeader()}</tr>
+              {renderTableData()}
+            </tbody>
+        </Table>
       </>
 
         )

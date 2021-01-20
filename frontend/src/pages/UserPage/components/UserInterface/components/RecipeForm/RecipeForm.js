@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
-import { Form, Header, Button} from './RecipeForm.css';
+import { Form, Header, Button, CategoryChecker} from './RecipeForm.css';
 
 const RecipeForm = () => {
     const productUnits = ["kg", "L", "g"]
-    const { register, handleSubmit, reset} = useForm();
-    const [message, setMeesage] = useState("")
+    const { register, handleSubmit} = useForm();
+    const [message, setMessage] = useState("")
     const [recipeCategories, setRecipeCategories] = useState([])
     const [availableProducts, setAvailableProducts] = useState([])
     const [productAdder, setProductAdder] = useState([])
@@ -31,7 +31,7 @@ const RecipeForm = () => {
 
         const tmpAdder = <div key={productAdder.length}>
             
-            <label>Add product</label> 
+            <label>Dodaj produkt</label> 
             <select ref={register} name={`products[${productAdder.length}].product`}>
                 
             {availableProducts.map(product => {
@@ -43,9 +43,9 @@ const RecipeForm = () => {
 
             })}
             </select><br/>
-            <label>Add product quantity</label> 
+            <label>Dodaj potrzebną ilość produktu</label> 
             <input ref={register} name={`products[${productAdder.length}].quantity`} type="number" />
-            <label>Add product unit</label> 
+            <label>Dodaj jednostkę produktu</label> 
             <select ref={register} name={`products[${productAdder.length}].unit`}>
             {productUnits.map(unit => {
                 return <option key={unit} value={unit}>{unit}</option>
@@ -66,7 +66,7 @@ const RecipeForm = () => {
         } 
       },[recipeCategories.lenght, availableProducts.lenght]);
 
-    const addRecipe = async(data) => {
+    const addRecipe = async(data, e) => {
         data["token"] = localStorage.getItem('token')
         const url = 'http://localhost:5432/recipes/add_recipe';
         const response = await fetch(url,{
@@ -76,28 +76,31 @@ const RecipeForm = () => {
             body: JSON.stringify(data)
         });
         const res = await response.json()
-        setMeesage(res.message);
+        setMessage(res.message);
 
-        if (response.status === 200) reset()   
+        if (response.status === 200) {
+            e.target.reset()   
+            setMessage("Dodano przepis")
+        }
 
     }
     return (
         <>
         <Form onSubmit={handleSubmit(addRecipe)} >
-        <Header>Add Recipe</Header>
-            <label>Name</label>
-            <input ref={register} name="name" type="text" />
-            <label>Description</label><br/>
-            <textarea rows="4" cols="50" ref={register} name="description" placeholder="Please describe why"/>
+        <Header>Dodaj przepis</Header>
+            <label>Nazwa</label>
+            <input ref={register} name="name" type="text" required/>
+            <label>Opis przygotowania</label><br/>
+            <textarea rows="4" cols="50" ref={register} name="description" placeholder="Sposób przyrządzania dania" required/>
             {
             recipeCategories.map(
-                (c) => {return <div key={c.id_kategoria_przepis}><label>{c.nazwa}</label><input  type="checkbox" name={`categories[${c.nazwa}]`} ref={register} /></div>}
+                (c) => {return <CategoryChecker key={c.id_kategoria_przepis}><label>{c.nazwa}</label><input  type="checkbox" name={`categories[${c.nazwa}]`} ref={register}/></CategoryChecker>}
 
             )
           }
             {productAdder}
-            <Button type="button" onClick={showProductAdder} >You wanna add product?</Button> 
-            <Button type="submit">Add recipe</Button>      
+            <Button type="button" onClick={showProductAdder} >Kolejny produkt?</Button> 
+            <Button type="submit">Dodaj przepis</Button>      
             <p>{message}</p>
         </Form>
 

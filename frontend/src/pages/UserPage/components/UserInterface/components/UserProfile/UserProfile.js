@@ -1,13 +1,14 @@
 import React from 'react';
 
 const UserProfile= ({userData}) => {
+
+    const { pseudonim, imie, nazwisko, email } = userData
     return (
         <>
-            <div>Uztkownik</div>
-            {console.log(userData)}
-            {Object.keys(userData).map((key,index)=> {
-                return <div key={index}>{key}, {userData[key]}</div>
-            })}
+            <div>Psueudonim: {pseudonim}</div>
+            <div>Imie: {imie}</div>
+            <div>Nazwisko: {nazwisko}</div>
+            <div>Email: {email}</div>
         </>
 
 

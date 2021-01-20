@@ -35,12 +35,12 @@ const LoginPage = () => {
     return (
     <>
         <Form onSubmit={handleSubmit(handleLogin)} >
-        <Header>Login Form</Header>
+        <Header>Formularz logowania</Header>
             <label>Email</label>
-            <input ref={register} name="email" type="email" />
-            <label>Password</label>
-            <input ref={register} name="password" type="text" />
-            <Button type="submit">add</Button>      
+            <input ref={register} name="email" type="email" required/>
+            <label>Hasło</label>
+            <input ref={register} name="password" type="text" required/>
+            <Button type="submit">Zaloguj</Button>      
             <p>{message}</p>
         </Form>
         { isLogin==='true' ? <Redirect to="/" /> : null  }

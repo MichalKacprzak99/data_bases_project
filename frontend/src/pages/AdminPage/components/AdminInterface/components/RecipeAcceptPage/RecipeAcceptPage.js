@@ -11,7 +11,7 @@ const RecipePage = () => {
             method: 'POST',
             credentials: 'omit',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"status": "oczekujący"})
+            body: JSON.stringify({"status": "oczekujący", "adminToken": localStorage.getItem('admin-token')})
         });
 
         if (response.status===200) setRecipes(await response.json())
@@ -33,6 +33,17 @@ const RecipePage = () => {
 
         if (response.status===200) getRecipes();
     }
+
+    const rejectRecipe = async(id) => {
+        const url = `http://localhost:5432/recipes/reject_recipe?id_recipe=${id}`;
+        const response = await fetch(url,{
+            method: 'GET',
+            credentials: 'omit',
+            headers: {'Content-Type': 'application/json'},
+        });
+
+        if (response.status===200) getRecipes();
+    }
     
     const renderRecipe = () =>{
         if(recipes.lenght!==0){
@@ -44,8 +55,9 @@ const RecipePage = () => {
                     <td>{id_przepis}</td>
                     <td>{nazwa}</td>
                     <td>{(date.getDate() + '/' + (date.getMonth() + 1) + '/' +  date.getFullYear())}</td>
-                    <td><Link to={`/recipes/recipe?id=${id_przepis}`}>Show more</Link></td>
-                    <td><button onClick={() => acceptRecipe(id_przepis)}>Accept</button></td>
+                    <td><Link to={`/recipes/recipe?id=${id_przepis}&status=oczekujący`}>Show more</Link></td>
+                    <td><button onClick={() => acceptRecipe(id_przepis)}>Akceptuj</button></td>
+                    <td><button onClick={() => rejectRecipe(id_przepis)}>Odrzuć</button></td>
                 </tr>
               )
             })
@@ -55,8 +67,6 @@ const RecipePage = () => {
 
     return (
     <> 
-    <div>Sortowanie</div> 
-    <div>Przepisy</div>
         <Table>
             <thead>
                 <tr>
@@ -64,13 +74,16 @@ const RecipePage = () => {
                     <th>nazwa </th>    
                     <th>data dodania </th>
                     <th>cały przepis </th>
-                    <th>accept </th>
+                    <th>akceptuj </th>
+                    <th>odrzuć</th>
                 </tr>
             </thead>
             <tbody>  
                 {renderRecipe()}
             </tbody>
         </Table>
+
+        
     </>
     );
 }

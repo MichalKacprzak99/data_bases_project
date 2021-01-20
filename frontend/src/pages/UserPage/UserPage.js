@@ -22,7 +22,7 @@ const UserPage = () => {
     if(!userData){
       getUserInfo();
     } 
-  },[]);
+  },[userData]);
 
   return (
     <>

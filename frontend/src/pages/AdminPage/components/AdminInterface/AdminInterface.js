@@ -28,7 +28,7 @@ const AdminInterface = () => {
             <button id='4' name="recipe category" onClick={clickHandler}>Dodaj kategorie przepisu</button>
             <button id='5' name="forum topic" onClick={clickHandler}>Dodaj temat na forum</button>
             <button id='6' name="user message" onClick={clickHandler}>Wiadomości od użytkowników</button>
-            <button id='7' name="control users" onClick={clickHandler}>Zablokuj/Odblokuj uzytkowników</button>
+            <button id='7' name="control users" onClick={clickHandler}>Kontrola uzytkowników</button>
             </Navbar>
             {adminActivity}
         </> 

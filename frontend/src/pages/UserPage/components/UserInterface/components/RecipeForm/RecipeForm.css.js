@@ -27,6 +27,10 @@ export const Form = styled.form`
             -webkit-text-fill-color: black !important;
         }
     }
+    label {
+        /* ali */
+        width : 50px
+    }
 
 
 `;
@@ -68,4 +72,12 @@ export const Button = styled.button`
         transform: scale(1.1) perspective(1px)
     }
 
+`;
+
+export const CategoryChecker = styled.div`
+
+    display: flex;
+    flex-direction : row;
+    justify-content: space-around;
+    align-self: center;
 `;

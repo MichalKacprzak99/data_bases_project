@@ -29,10 +29,10 @@ const SendMessage = () => {
     return (
         <>
         <Form onSubmit={handleSubmit(sendMessage)} >
-        <Header>Send Message</Header>
-            <textarea rows="4" cols="50" ref={register} name="message" placeholder="Please describe why"/>
+        <Header>Wyślij wiadomość do administracji</Header>
+            <textarea rows="4" cols="50" ref={register} name="message" placeholder="Podaj treść swojej wiadomości" required/>
 
-            <Button type="submit">Send</Button>      
+            <Button type="submit">Wyślij</Button>      
             <p>{message}</p>
         </Form>
 

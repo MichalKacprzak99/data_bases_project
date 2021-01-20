@@ -22,6 +22,11 @@ th {
   text-align: center;
   background-color: #4CAF50;
   color: white;
+
+}
+textarea {
+  width: 100%;
+  height :100%
 }
 
 `;

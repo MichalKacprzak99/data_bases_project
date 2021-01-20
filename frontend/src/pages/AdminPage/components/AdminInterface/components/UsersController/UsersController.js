@@ -5,7 +5,6 @@ const UsersController = () => {
   const [usersData, setUsersData] = useState(null)
 
   const getUsersInfo = async() => {
-    console.log("wywolanie")
     const url = 'http://localhost:5432/admin/get_users';
     const response = await fetch(url,{
         method: 'POST',
@@ -68,15 +67,14 @@ const UsersController = () => {
 
     return (
       <>
-        <h1 id='title'>React Dynamic Table</h1>
-            <Table>
-              <thead>
-                <tr>{renderTableHeader()}</tr>
-              </thead>
-               <tbody>  
-                  {renderTableData()}
-               </tbody>
-            </Table>
+        <Table>
+          <thead>
+            <tr>{renderTableHeader()}</tr>
+          </thead>
+            <tbody>  
+              {renderTableData()}
+            </tbody>
+        </Table>
       </>
 
         )

@@ -2,14 +2,15 @@ import React, {useEffect, useState} from 'react';
 import { useLocation,useHistory } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import Popup from 'reactjs-popup';
-// import 'reactjs-popup/dist/index.css';
 
+import {Button, ButtonGroup} from './Recipe.css'
 const Recipe = () => {
 
     let history = useHistory();
     const location = useLocation();
     const query = new URLSearchParams(location.search);
     const id = query.get('id')
+    const status = query.get('status')
 
     const { register, handleSubmit, register: register2, handleSubmit: handleSubmit2} = useForm();
 
@@ -22,16 +23,17 @@ const Recipe = () => {
 
     const getRecipe = async() =>{
 
-        const url = `http://localhost:5432/recipes/get_recipe?id_recipe=${id}`;
+        const url = `http://localhost:5432/recipes/get_recipe?id_recipe=${id}&status=${status}`;
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"token": localStorage.getItem('token')})
+            body: JSON.stringify({"token": localStorage.getItem('token'),"adminToken": localStorage.getItem('admin-token')})
         });
         
         if (response.status===200) {
             const res = await response.json();
+
             if(res === null){
                 history.push('/recipes')
             } else {
@@ -135,18 +137,18 @@ const Recipe = () => {
     }
 
     const LikeRecipePopUp = () => {
-        return isLiked ? <button onClick={dislikeRecipe}>Dislike</button> : <Popup trigger={<button> Like</button>} >
+        return isLiked ? <Button onClick={dislikeRecipe}>Znielub</Button> : <Popup trigger={<Button> Polub</Button>} >
             <form onSubmit={handleSubmit(likeRecipe)}>
-            <textarea rows="4" cols="50" ref={register} name="description" placeholder="Why you like it"/><br/>
-            <button type="submit">I like it</button> 
+            <textarea rows="4" cols="50" ref={register} name="description" placeholder="Co cię zainteresowało?"/><br/>
+            <Button type="submit">Lubie to</Button> 
             </form> 
       </Popup>
     }
     const AddCommentPopUp = () => {
-        return <Popup trigger={<button> Add Comment</button>} >
+        return <Popup trigger={<Button> Dodaj komentarz</Button>} >
             <form onSubmit={handleSubmit2(addComment)}>
-            <textarea rows="4" cols="50" ref={register2} name="description" placeholder="Please describe why"/><br/>
-            <button type="submit">I like it</button> 
+            <textarea rows="4" cols="50" ref={register2} name="description" placeholder="Treść"/><br/>
+            <Button type="submit">Skomentuj</Button> 
             </form>
         
       </Popup>
@@ -176,28 +178,38 @@ const Recipe = () => {
     const renderComments = () =>{
         return comments.map((comment) => {
             const {id_komentarz, pseudonim, tresc} = comment;
-            return <div key={id_komentarz}>{tresc}, {pseudonim}</div>
+            return <div key={id_komentarz}>Tresc:{tresc}, Autor:{pseudonim}</div>
         })
+    }
+
+    const RenderRecipe = () => {
+        const {nazwa, opis} = recipe
+        return <>
+            <div>Nazwa {nazwa}</div>
+            <div>Opis {opis}</div>
+            
+            {recipeCategories.map((category) => {
+                return <div key={category.nazwa}>Kategoria:{category.nazwa}</div>
+            })}
+            <div >Skład</div>
+            {recipeProducts.map((product) => {
+                const {ilosc, jednostka, nazwa } = product;
+                return <div key={nazwa}>{nazwa}:{ilosc+jednostka}</div>
+            })}</>
     }
 
     return (
     <>
-        {recipe && Object.keys(recipe).map((key) => {
-        const value = recipe[key];
-        return <div>{key}:{value.toString()}</div>
-        })}
-        {recipeCategories.map((category) => {
-            return <div>Kategoria:{category.nazwa}</div>
-        })}
-        <div >Skład</div>
-        {recipeProducts.map((product) => {
-            const {ilosc, jednostka, nazwa } = product;
-            return <div>{nazwa}:{ilosc+jednostka}</div>
-        })}
-        <button onClick={()=>setShowComments(showComments => !showComments)}>Show comments</button>
-        {console.log(comments)}
+        
+        {recipe!=null?<RenderRecipe/>: null }
         {showComments ? renderComments() : null}
+        <ButtonGroup>
+        <Button onClick={()=>setShowComments(showComments => !showComments)}>Show comments</Button>
         {getUserOptions()} 
+        </ButtonGroup>
+
+
+        
     </> 
     )
 }

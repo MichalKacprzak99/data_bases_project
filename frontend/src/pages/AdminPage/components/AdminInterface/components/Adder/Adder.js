@@ -32,20 +32,21 @@ const Adder = (props) => {
           setMeesage(res.message);
         }
     }
-    const getProductCategories = async() => {
+    
+  const getProductCategories = async() => {
 
-      const url = `http://localhost:5432/admin/get_product_categories`;
-      const response = await fetch(url,{
-          method: 'POST',
-          credentials: 'omit',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({"token": localStorage.getItem('admin-token')})
-      });
-      const res = await response.json()
+    const url = `http://localhost:5432/admin/get_product_categories`;
+    const response = await fetch(url,{
+        method: 'POST',
+        credentials: 'omit',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({"token": localStorage.getItem('admin-token')})
+    });
+    const res = await response.json()
 
-      if(response.status === 200) {
-        setProductCategories(res);
-      } 
+    if(response.status === 200) {
+      setProductCategories(res);
+    } 
 
   }
 
@@ -61,7 +62,6 @@ const Adder = (props) => {
     return (
         
         <Form onSubmit={handleSubmit(handleAdding)} >
-          {console.log(productCategories)}
             <Header>Add {toAdd}</Header>
             <input ref={register} name={toAdd.replace(/\s/g, '_')} type="text" />
             {toAdd==="forum topic"? <input ref={register} name="description" type="text" /> : null}

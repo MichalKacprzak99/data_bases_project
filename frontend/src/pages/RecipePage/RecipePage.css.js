@@ -64,3 +64,34 @@ export const Button = styled.button`
     }
 
 `;
+
+export const Form = styled.form`
+
+    width: 40%;
+    margin-top: 20px;
+    display: block;
+    align-self: center;
+    /* input{
+        height: 40px;
+        width: 100%;
+        padding:10px;
+        margin:15px 0;
+        border-radius:100px;
+        font-size: 20px;
+        background: rgb(190, 189, 189);
+        &:focus{
+            outline: none;
+            border: 3px solid #740103;
+        }
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover, 
+        &:-webkit-autofill:focus, 
+        &:-webkit-autofill:active  {
+            transition: background-color 5000s;
+            -webkit-text-fill-color: black !important;
+        }
+    } */
+
+
+`;
+

@@ -18,11 +18,10 @@ const RegisterPage = () => {
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(data)
       });
-      if(response.status === 409) {
-        setMeesage(response.status);
-      } else {
-        e.target.reset()   
-        setRegister(true)    
+      const res = await response.json()
+      setMeesage(res.message);
+      if(response.status === 200) {
+        setRegister(true)
       }
       
       
@@ -30,20 +29,20 @@ const RegisterPage = () => {
   
   return (
       <Form id="form" onSubmit={handleSubmit(handleRegister)}>
-          <Header>Registration Form</Header>
+          <Header>Formularz rejestracji</Header>
           <label >Imie </label>
-          <input ref={register} name="name" type="text" />
+          <input ref={register} name="name" type="text" required/>
           <label>Nazwisko</label>
-          <input ref={register} name="surname" type="text" />
+          <input ref={register} name="surname" type="text" required/>
           <label>Email</label>
-          <input ref={register} name="email"  type="text" />
-          <label>Nickname</label>
-          <input ref={register} name="user_name" type="text" />
-          <label>Password </label>
-          <input ref={register} name="password" type="password" />
+          <input ref={register} name="email"  type="text" required/>
+          <label>Pseudonim</label>
+          <input ref={register} name="user_name" type="text" required/>
+          <label>Hasło </label>
+          <input ref={register} name="password" type="password" required/>
       <ButtonGroup>
-        <Button type="button" onClick={() => push('/')}>To main</Button>
-        <Button type="submit" >register now</Button>
+        <Button type="button" onClick={() => push('/')}>Wróc do menu</Button>
+        <Button type="submit" >Zarejestruj się</Button>
       </ButtonGroup>
       <p>{message}</p>
       { isRegister ? <Redirect to="/login" /> : null  }
