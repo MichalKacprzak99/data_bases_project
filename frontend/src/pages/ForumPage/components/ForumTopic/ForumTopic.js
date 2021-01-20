@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { useLocation } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import Popup from 'reactjs-popup';
-
+import {Table, Button} from './ForumTopic.css'
 const ForumTopic = () => {
 
   const [comments, setComments] = useState([])
@@ -46,20 +46,37 @@ const ForumTopic = () => {
   }
 
     const AddCommentPopUp = () => {
-    return <Popup trigger={<button> Add Comment</button>} >
+    return <Popup trigger={<Button> Add Comment</Button>} >
         <form onSubmit={handleSubmit(addComment)}>
-        <textarea rows="4" cols="50" ref={register} name="description" placeholder="Please describe why"/><br/>
-        <button type="submit">I like it</button> 
+        <textarea rows="4" cols="50" ref={register} name="description" placeholder="Treść"/><br/>
+        <Button type="submit">Comment</Button> 
         </form>
 
     </Popup>
     }
 
     const renderComments = () =>{
-    return comments.map((comment) => {
-        const {id_wpis, pseudonim, tresc} = comment;
-        return <div key={id_wpis}>{tresc}, {pseudonim}</div>
-    })
+      return <Table>
+      <thead>
+          <tr>
+              <th>Tresc </th> 
+              <th>Data dodania </th>
+              <th>Użytkownik </th>
+          </tr>
+      </thead>
+      <tbody>  
+      {comments.map((comment) => {
+        const {id_wpis, pseudonim, tresc, data_dodania} = comment;
+        const date = new Date(data_dodania);
+        return <tr key={id_wpis}>
+          <td><textarea readOnly rows = "5" cols = "60" name = "description" value={tresc}></textarea></td>
+          <td>{(date.getDate() + '/' + (date.getMonth() + 1) + '/' +  date.getFullYear())}</td>
+          <td>{pseudonim}</td>
+        </tr>
+        
+      })}
+      </tbody>
+  </Table> 
     }
 
     useEffect(() => {
