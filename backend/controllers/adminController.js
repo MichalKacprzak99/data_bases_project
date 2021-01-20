@@ -14,10 +14,12 @@ const loginAdmin = async(request, response) => {
       if (error) {
         return response.status(409).json({ status: 'failed', message: error.stack });
       } else {
+        if(results.rows.length ==0){
+          return response.status(400).json({ status: 'failed', message: "Wrong Password or Nickname" });
+        }
         const admin = results.rows[0];
-        const validPassword = await bcrypt.compare(request.body.password, admin.haslo);
-        if(!validPassword){
-          return response.status(400).json({ status: 'failed', message: "Wrong Password or Email" });
+        if(request.body.password != admin.haslo) {
+          return response.status(400).json({ status: 'failed', message: "Wrong Password or Nickname" });
         }
         const token = jwt.sign({ _id: admin.id_admin }, PrivateKey);
         return response.status(200).json({"token": token});
@@ -25,15 +27,15 @@ const loginAdmin = async(request, response) => {
     });
   };
 
-// umozliwic dodawania kategorii
+
 const addProduct = async(request, response) =>{
   const product = request.body.product;
   const productCategory = request.body.product_category;
   pool.query('INSERT INTO "produkt" ("id_kategoria_produkt", "nazwa") VALUES ($1, $2);', [productCategory, product], (error) => {
     if (error) {
-      response.status(409).json({ status: 'failed', message: error.stack });
+      response.status(409).json({ status: 'failed', message: "Produkt już istnieje" });
     } else {
-      response.status(201).json({ status: 'success', message: 'Product added.' });
+      response.status(201).json({ status: 'success', message: 'Dodano produkt' });
     }
   });
 }
@@ -42,9 +44,9 @@ const addProductCategory = async(request, response) =>{
   const product_category = request.body.product_category;
   pool.query('INSERT INTO "kategoria_produkt" ("nazwa") VALUES ($1);', [product_category], (error) => {
     if (error) {
-      response.status(409).json({ status: 'failed', message: error.stack });
+      response.status(409).json({ status: 'failed', message: "Kategoria produktu już istnieje" });
     } else {
-      response.status(201).json({ status: 'success', message: 'Product category added.' });
+      response.status(201).json({ status: 'success', message: 'Dodano kategorie produktu' });
     }
   });
 }
@@ -54,9 +56,9 @@ const addRecipeCategory = async(request, response) =>{
   pool.query('INSERT INTO "kategoria_przepis" ("nazwa") VALUES ($1);', [recipe_category], (error) => {
     if (error) {
 
-      response.status(409).json({ status: 'failed', message: error.stack });
+      response.status(409).json({ status: 'failed', message: 'Kategoria przepisu już istnieje' });
     } else {
-      response.status(201).json({ status: 'success', message: 'Recipe category added.' });
+      response.status(201).json({ status: 'success', message: 'Dodano kategorie przepisu' });
     }
   });
 }
@@ -72,9 +74,9 @@ const addForumTopic = async(request, response) =>{
     pool.query('INSERT INTO "temat_forum" ("id_admin", "temat", "data_dodania", "opis") VALUES ($1, $2, to_timestamp($3), $4);', [admin_id, topic, Date.now()/1000, description], (error) => {
       if (error) {
 
-        response.status(409).json({ status: 'failed', message: error.stack });
+        response.status(409).json({ status: 'failed', message: 'Taki temat już istnieje' });
       } else {
-        response.status(201).json({ status: 'success', message: 'Forum topic added.' });
+        response.status(201).json({ status: 'success', message: 'Dodano temat do forum' });
       }
     });
   } catch(err) {
@@ -147,9 +149,7 @@ const getMessages = async(request, response) => {
 
 const getProductsCetegories = async(request, response) => {
 
-  const token = request.body.token;
-  try{
-    jwt.verify(token, PrivateKey);
+
     pool.query(`SELECT * FROM kategoria_produkt`, async(error, results) => {
       if (error) {
 
@@ -159,13 +159,71 @@ const getProductsCetegories = async(request, response) => {
         return response.status(200).json(results.rows);
       }
     });
-  } catch(err) {
 
-    return response.status(408).json({ status: 'failed', message: err.stack });
-  }
   
 
 };
+
+const getRecipeCetegories = async(request, response) => {
+
+
+    pool.query(`SELECT * FROM kategoria_przepis`, async(error, results) => {
+      if (error) {
+        console.log(error.stack)
+        return response.status(409).json({ status: 'failed', message: error.stack });
+      } else {
+  
+        return response.status(200).json(results.rows);
+      }
+    });
+
+  
+
+};
+
+const getRecipe = async(request, response) => {
+  
+  const token = request.body.token;
+    console.log("ala")
+  const id_recipe = request.query.id_recipe
+const status = `'zaakceptowany'`
+  try{
+    const decode = jwt.verify(token, PrivateKey);
+    const user_id = decode._id;
+    const query = `SELECT *, EXISTS(SELECT * FROM polubione_przepisy WHERE "id_przepis"=$1 AND "id_uzytkownika"=$2) as polubiony FROM
+      recipes WHERE id_przepis=$1 AND status=${status}`
+
+    pool.query(query,[id_recipe, user_id], async(error, results) => {
+      if (error) {
+        console.log(error.stack)
+        return response.status(409).json({ status: 'failed', message: error.stack });
+      } else {
+
+        if(results.rows.length !== 0){
+
+          return response.status(200).json(results.rows[0]);
+        } else {
+          return response.status(200).json(null);
+        }
+        
+      }
+  });
+} catch(err) {
+    const query = `SELECT nazwa, opis, data_dodania, false as polubiony FROM przepis 
+    WHERE id_przepis=$1 AND status=${status}`
+    console.log(query)
+    pool.query(query,[id_recipe], async(error, results) => {
+      if (error) {
+        return response.status(409).json({ status: 'failed', message: error.stack });
+      } else {
+        return response.status(200).json(results.rows[0]);
+      }
+    });
+  }  
+
+};
+
+
 export default {
   getMessages,
   blockingUsers,
@@ -175,5 +233,7 @@ export default {
   addProductCategory,
   addProduct,
   addRecipeCategory,
-  getProductsCetegories
+  getProductsCetegories,
+  getRecipeCetegories,
+  getRecipe,
 }
