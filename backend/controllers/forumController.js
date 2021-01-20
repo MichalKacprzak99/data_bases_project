@@ -20,7 +20,7 @@ const getTopics = async(request, response) =>{
 
 const getComments = async(request, response) =>{
     const id_topic = request.query.id_topic
-    pool.query('SELECT * FROM wpis WHERE id_temat=$1;',[id_topic], (error, results) => {
+    pool.query('SELECT data_dodania, id_wpis, pseudonim, tresc FROM wpis JOIN uzytkownik USING(id_uzytkownika) WHERE id_temat=$1;',[id_topic], (error, results) => {
         if (error) {
             response.status(409).json({ status: 'failed', message: error.stack });
         } else {
