@@ -15,7 +15,7 @@ const ForumTopic = () => {
   const { register, handleSubmit} = useForm();
 
     const getComments = async() => {
-    const url = `https://afternoon-hamlet-21659.herokuapp.com/forum/get_comments?id_topic=${id}`;
+    const url = `https://data-base-api.herokuapp.com/forum/get_comments?id_topic=${id}`;
     const response = await fetch(url,{
         method: 'GET',
         credentials: 'omit',
@@ -31,7 +31,7 @@ const ForumTopic = () => {
     const addComment = async(data) => {
 
       data["token"] = localStorage.getItem('token')
-      const url = `https://afternoon-hamlet-21659.herokuapp.com/forum/add_comment?id_topic=${id}`;
+      const url = `https://data-base-api.herokuapp.com/forum/add_comment?id_topic=${id}`;
       const response = await fetch(url,{
           method: 'POST',
           credentials: 'omit',
@@ -46,10 +46,10 @@ const ForumTopic = () => {
   }
 
     const AddCommentPopUp = () => {
-    return <Popup trigger={<Button> Add Comment</Button>} >
+    return <Popup trigger={<Button> Dodaj komentarz</Button>} >
         <form onSubmit={handleSubmit(addComment)}>
         <textarea rows="4" cols="50" ref={register} name="description" placeholder="Treść"/><br/>
-        <Button type="submit">Comment</Button> 
+        <Button type="submit">Komentuj</Button> 
         </form>
 
     </Popup>

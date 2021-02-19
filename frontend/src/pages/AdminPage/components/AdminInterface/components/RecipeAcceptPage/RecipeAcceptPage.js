@@ -6,7 +6,7 @@ const RecipePage = () => {
     const [recipes, setRecipes] = useState([])
 
     const getRecipes = async() =>{
-        const url = 'https://afternoon-hamlet-21659.herokuapp.com/recipes/get_recipes';
+        const url = 'https://data-base-api.herokuapp.com/recipes/get_recipes';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -24,7 +24,7 @@ const RecipePage = () => {
       },[recipes.lenght]);
 
     const acceptRecipe = async(id) => {
-        const url = `https://afternoon-hamlet-21659.herokuapp.com/recipes/accept_recipe?id_recipe=${id}`;
+        const url = `https://data-base-api.herokuapp.com/recipes/accept_recipe?id_recipe=${id}`;
         const response = await fetch(url,{
             method: 'GET',
             credentials: 'omit',
@@ -35,7 +35,7 @@ const RecipePage = () => {
     }
 
     const rejectRecipe = async(id) => {
-        const url = `https://afternoon-hamlet-21659.herokuapp.com/recipes/reject_recipe?id_recipe=${id}`;
+        const url = `https://data-base-api.herokuapp.com/recipes/reject_recipe?id_recipe=${id}`;
         const response = await fetch(url,{
             method: 'GET',
             credentials: 'omit',
@@ -55,7 +55,7 @@ const RecipePage = () => {
                     <td>{id_przepis}</td>
                     <td>{nazwa}</td>
                     <td>{(date.getDate() + '/' + (date.getMonth() + 1) + '/' +  date.getFullYear())}</td>
-                    <td><Link to={`/recipes/recipe?id=${id_przepis}&status=oczekujący`}>Show more</Link></td>
+                    <td><Link to={`/recipes/recipe?id=${id_przepis}&status=oczekujący`}>Pokaż przepis</Link></td>
                     <td><button onClick={() => acceptRecipe(id_przepis)}>Akceptuj</button></td>
                     <td><button onClick={() => rejectRecipe(id_przepis)}>Odrzuć</button></td>
                 </tr>

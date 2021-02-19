@@ -8,7 +8,7 @@ const ForumPage = ({ match }) => {
     const [forumTopics, setForumTopics] = useState([])
 
     const getForumTopics = async() =>{
-      const url = 'https://afternoon-hamlet-21659.herokuapp.com/forum/get_topics';
+      const url = 'https://data-base-api.herokuapp.com/forum/get_topics';
       const response = await fetch(url,{
         method: 'GET',
         credentials: 'omit',

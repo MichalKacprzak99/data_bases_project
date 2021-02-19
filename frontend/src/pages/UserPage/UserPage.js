@@ -5,7 +5,7 @@ const UserPage = () => {
   const [userData, setUserData] = useState(false)
 
   const getUserInfo = async() => {
-    const url = 'https://afternoon-hamlet-21659.herokuapp.com/user/user';
+    const url = 'https://data-base-api.herokuapp.com/user/user';
     const response = await fetch(url,{
         method: 'POST',
         credentials: 'omit',

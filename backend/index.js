@@ -4,15 +4,34 @@ import dotenv from 'dotenv';
 
 import cookieParser from "cookie-parser";
 import bodyParser from 'body-parser';
-
+import swaggerJSDoc from "swagger-jsdoc"
+import swaggerUi from "swagger-ui-express"
 dotenv.config();
 
+
+
+const swaggerDefinition = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Express API for data base project',
+    version: '1.0.0',
+  },
+};
+
+const options = {
+  swaggerDefinition,
+  // Paths to files containing OpenAPI definitions
+  apis: ['./routes/*.js'],
+};
+
+const swaggerSpec = swaggerJSDoc(options);
 
 const app = express();
 const PORT = process.env.PORT || 8000;
 
 app.use(cookieParser());
 app.use(cors())
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json({extended: true}));
 app.use(bodyParser.json());
@@ -26,9 +45,7 @@ app.use('/recipes', recipeRouter)
 app.use('/admin', adminRouter)
 app.use('/user', userRouter)
 app.use('/forum', forumRouter)
-app.get('/', (req, res) => {
-  res.send(`<h1>Hello World! ${process.env.DB_USER}</h1>`)
-})
+
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });

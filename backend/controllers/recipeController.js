@@ -135,7 +135,7 @@ const getRecipe = async(request, response) => {
         }
     });
   } catch(err) {
-      const query = `SELECT nazwa, opis, data_dodania, false as polubiony FROM przepis 
+      const query = `SELECT nazwa, opis, data_dodania, false as polubiony FROM recipes 
       WHERE id_przepis=$1 AND status=$2`
   
       pool.query(query,[id_recipe,status], async(error, results) => {
@@ -346,9 +346,7 @@ const filterRecipes = async(request, response) => {
     }
 
 }
-const getter=async(request, response)=>{
-  return response.status(200).json({"ala": "ala"})
-}
+
 
 export default {
     addRecipe,
@@ -363,5 +361,4 @@ export default {
     getRecipe,
     filterRecipes,
     rejectRecipe,
-    getter,
 }

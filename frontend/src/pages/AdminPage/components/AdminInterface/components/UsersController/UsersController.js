@@ -5,7 +5,7 @@ const UsersController = () => {
   const [usersData, setUsersData] = useState(null)
 
   const getUsersInfo = async() => {
-    const url = 'https://afternoon-hamlet-21659.herokuapp.com/admin/get_users';
+    const url = 'https://data-base-api.herokuapp.com/admin/get_users';
     const response = await fetch(url,{
         method: 'POST',
         credentials: 'omit',
@@ -20,7 +20,7 @@ const UsersController = () => {
   }
 
   const handleBlocking = async(e, toBlock) => {
-    const url = 'https://afternoon-hamlet-21659.herokuapp.com/admin/user_blocking';
+    const url = 'https://data-base-api.herokuapp.com/admin/user_blocking';
     const response = await fetch(url,{
         method: 'POST',
         credentials: 'omit',

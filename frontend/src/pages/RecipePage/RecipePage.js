@@ -11,7 +11,7 @@ const RecipePage = (props) => {
 
     const onlyLiked = props.onlyLiked || false;
     const getRecipes = async() =>{
-        const url = 'https://afternoon-hamlet-21659.herokuapp.com/recipes/get_recipes';
+        const url = 'https://data-base-api.herokuapp.com/recipes/get_recipes';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -25,7 +25,7 @@ const RecipePage = (props) => {
 
     const getProductCategories = async() => {
 
-        const url = `https://afternoon-hamlet-21659.herokuapp.com/admin/get_product_categories`;
+        const url = `https://data-base-api.herokuapp.com/admin/get_product_categories`;
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -42,7 +42,7 @@ const RecipePage = (props) => {
 
       const getRecipeCategories = async() => {
 
-        const url = `https://afternoon-hamlet-21659.herokuapp.com/admin/get_recipe_categories`;
+        const url = `https://data-base-api.herokuapp.com/admin/get_recipe_categories`;
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -82,7 +82,7 @@ const RecipePage = (props) => {
                         <td>{nazwa}</td>
                         <td>{(date.getDate() + '/' + (date.getMonth() + 1) + '/' +  date.getFullYear())}</td>
 
-                        <td><Link to={`/recipes/recipe?id=${id_przepis}&status=zaakceptowany`}>Show more</Link></td>
+                        <td><Link to={`/recipes/recipe?id=${id_przepis}&status=zaakceptowany`}>Pokaż przepis</Link></td>
                         {onlyLiked ? <td><textarea readOnly rows = "5" cols = "60" name = "description" value={notatka}></textarea></td>: null}
                         
         
@@ -114,7 +114,7 @@ const RecipePage = (props) => {
 
     const searchRecipes = async(data) => {
 
-        const url = 'https://afternoon-hamlet-21659.herokuapp.com/recipes/filter_recipes';
+        const url = 'https://data-base-api.herokuapp.com/recipes/filter_recipes';
         data["status"]= "zaakceptowany"
         data["onlyLiked"]=onlyLiked
         data["token"] = localStorage.getItem('token')
@@ -176,7 +176,7 @@ const RecipePage = (props) => {
                 (c) => {return <div key={c.id_kategoria_produkt}><label>{c.nazwa}</label><input  type="checkbox" name={`productCategories[${c.nazwa}]`} ref={register} /></div>}
 
             )}
-            <Button type="submit">Search Recipes</Button>  
+            <Button type="submit">Szukaj Przepisów</Button>  
         </Form>
     }
     return (

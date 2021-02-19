@@ -12,7 +12,7 @@ const AdminLoginPage = () => {
     const [isAdminLogin, setAdminLogin] = useState(initAdminItem)
 
     const handleLogin = async (data, e) => {
-        const url = 'https://afternoon-hamlet-21659.herokuapp.com/admin/loginAdmin';
+        const url = 'https://data-base-api.herokuapp.com/admin/loginAdmin';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -37,12 +37,12 @@ const AdminLoginPage = () => {
     return (
     <>
         <Form onSubmit={handleSubmit(handleLogin)} >
-        <Header>Login Form</Header>
+        <Header>Formularz Logowania Admina</Header>
             <label>Pseudonim</label>
             <input ref={register} name="nickname" type="text" />
-            <label>Password</label>
-            <input ref={register} name="password" type="text" />
-            <Button type="submit">Login</Button>      
+            <label>Hasło</label>
+            <input ref={register} name="password" type="password" />
+            <Button type="submit">Zaloguj</Button>      
             <p>{message}</p>
         </Form>
         { isAdminLogin === 'true' ? <Redirect to="/admin" /> : null  }

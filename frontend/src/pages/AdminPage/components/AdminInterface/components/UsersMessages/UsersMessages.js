@@ -5,7 +5,7 @@ const UsersController = () => {
   const [usersMessages, setUsersMessages] = useState(null)
 
   const getUsersMessages = async() => {
-    const url = 'https://afternoon-hamlet-21659.herokuapp.com/admin/get_messages';
+    const url = 'https://data-base-api.herokuapp.com/admin/get_messages';
     const response = await fetch(url,{
         method: 'POST',
         credentials: 'omit',

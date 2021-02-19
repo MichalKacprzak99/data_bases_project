@@ -8,7 +8,7 @@ const TrackedProducts = () => {
     const [message, setMessage] = useState("")
     const [trackedProducts, setTrackedProducts] = useState([])
     const getInfo = async(setter, category) => {
-        const url = 'https://afternoon-hamlet-21659.herokuapp.com/user/get_info';
+        const url = 'https://data-base-api.herokuapp.com/user/get_info';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -25,7 +25,7 @@ const TrackedProducts = () => {
 
     const addTrackedProduct = async(data) => {
         data["token"] = localStorage.getItem('token')
-        const url = 'https://afternoon-hamlet-21659.herokuapp.com/user/add_tracked_product';
+        const url = 'https://data-base-api.herokuapp.com/user/add_tracked_product';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -42,7 +42,7 @@ const TrackedProducts = () => {
     }
 
     const getTrackedProducts = async() => {
-        const url = 'https://afternoon-hamlet-21659.herokuapp.com/user/get_tracked_products';
+        const url = 'https://data-base-api.herokuapp.com/user/get_tracked_products';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',

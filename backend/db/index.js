@@ -4,11 +4,11 @@ dotenv.config();
 
 const { Pool } = postgre;
 
+const connectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`
+
 export const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_DATABASE,
-    password: process.env.DB_PASSWORD,
-    port: process.env.PORT,
-    max: 5,
-  });
+  connectionString: connectionString ,
+  ssl: true,
+  max: 5,
+})
+

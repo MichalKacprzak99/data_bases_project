@@ -12,11 +12,12 @@ const registerUser = (request, response) => {
     const name = request.body.name;
     const surname = request.body.surname;
     const email = request.body.email;
-    const hashedPassword = bcrypt.hashSync(request.body.password, 10);
+    const password = request.body.password
+    const hashedPassword = bcrypt.hashSync(password, 10);
     pool.query('INSERT INTO "uzytkownik" ("pseudonim", "imie", "nazwisko", "email", "haslo") VALUES ($1, $2, $3, $4, $5);', [user_name, name, surname, email, hashedPassword], (error, results) => {
       if (error) {
         console.log(error.message)
-        response.status(409).json({ status: 'failed', message: error.message });
+        response.status(409).json({ status: 'failed', message: error.stack});
       } else {
         response.status(200).json({ status: 'success', message: 'Użytkownik dodany.' });
       }
@@ -31,15 +32,15 @@ const loginUser = async(request, response) => {
       return response.status(409).json({ status: 'failed', message: error.stack });
     } else {
       if(typeof results == 'undefined'){
-        return response.status(400).json({ status: 'failed', message: "Wrong Password or Email" });
+        return response.status(400).json({ status: 'failed', message: "Błędny email lub hasło" });
       }
       const user = results.rows[0];
       const validPassword = await bcrypt.compare(request.body.password, user.haslo);
       if(!validPassword){
-        return response.status(400).json({ status: 'failed', message: "Wrong Password or Email" });
+        return response.status(400).json({ status: 'failed', message: "Błędny email lub hasło" });
       }
       if(user.zablokowany){
-        return response.status(400).json({ status: 'failed', message: "You are blocked" });
+        return response.status(400).json({ status: 'failed', message: "Jesteś zablokowany" });
       }
       const token = jwt.sign({ _id: user.id_uzytkownika }, PrivateKey);
       return response.status(200).json({"token": token});
@@ -64,7 +65,7 @@ const getUserInfo = async(request, response) => {
       }
     });
   } catch(err) {
-    return response.status(408).json({ status: 'failed', message: err.stack });
+    return response.status(409).json({ status: 'failed', message: err.stack });
   }
   
 };
@@ -105,12 +106,12 @@ const sendMessage = async(request, response) => {
         return response.status(409).json({ status: 'failed', message: error.stack });
       } else {
   
-        return response.status(200).json({ status: 'done', message: "Message is send"});
+        return response.status(200).json({ status: 'done', message: "Wiadomość została wys"});
       }
     });
   } catch(err) {
 
-    return response.status(408).json({ status: 'failed', message: err.stack });
+    return response.status(409).json({ status: 'failed', message: err.stack });
   }
   
 
@@ -127,7 +128,7 @@ const addTrackedProduct = async(request, response) => {
 
         return response.status(409).json({ status: 'failed', message: error.stack });
       } else {
-        return response.status(200).json({ status: 'done', message: "Product is tracked"});
+        return response.status(200).json({ status: 'done', message: "Rozpoczęto śledzenie produktu"});
       }
     });
   } catch(err) {
@@ -154,7 +155,7 @@ const getTrackedProducts = async(request, response) => {
     });
   } catch(err) {
 
-    return response.status(408).json({ status: 'failed', message: err.stack });
+    return response.status(409).json({ status: 'failed', message: err.stack });
   }
   
 

@@ -11,7 +11,7 @@ const RegisterPage = () => {
   const { push } = useHistory()
 
   const handleRegister = async (data, e) => {
-      const url = 'https://afternoon-hamlet-21659.herokuapp.com/user/register';
+      const url = 'https://data-base-api.herokuapp.com/user/register';
       const response = await fetch(url,{
           method: 'POST',
           credentials: 'omit',

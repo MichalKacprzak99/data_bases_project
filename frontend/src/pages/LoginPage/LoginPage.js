@@ -9,7 +9,7 @@ const LoginPage = () => {
     const [isLogin, setLogin] = useState(localStorage.getItem('isLogged'))
 
     const handleLogin = async (data, e) => {
-        const url = 'https://afternoon-hamlet-21659.herokuapp.com/user/login';
+        const url = 'https://data-base-api.herokuapp.com/user/login';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
