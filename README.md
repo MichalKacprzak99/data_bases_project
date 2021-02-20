@@ -1,5 +1,6 @@
 # Programmers can cook
-
+![GitHub top language](https://img.shields.io/github/languages/top/MichalKacprzak99/programmer-can-cook)
+![GitHub last commit](https://img.shields.io/github/last-commit/MichalKacprzak99/programmers-can-cook)
 ## Table of content
 * [Project Description](#project-description)
     - [What is the project about?](#what-is-the-project-about)
