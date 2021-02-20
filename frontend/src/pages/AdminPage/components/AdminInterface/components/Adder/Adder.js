@@ -3,8 +3,8 @@ import { Form, Header, Button} from './Adder.css';
 import { useForm } from "react-hook-form";
 
 const Adder = (props) => {
-    const { register,reset, handleSubmit} = useForm();
-    const [message, setMeesage] = useState("")
+    const { register, reset, handleSubmit} = useForm();
+    const [message, setMessage] = useState("")
     const [productCategories, setProductCategories] = useState([])
     const [toAdd, setToAdd] = useState(props.name);
 
@@ -12,7 +12,7 @@ const Adder = (props) => {
     
     const handleAdding = async (data, e) => {
         data["token"] = localStorage.getItem('admin-token')
-        const url = `https://data-base-api.herokuapp.com/admin/add_${toAdd.replace(/\s/g, '_')}`;
+        const url = `http://localhost:5432/admin/add_${toAdd.replace(/\s/g, '_')}`;
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -22,20 +22,18 @@ const Adder = (props) => {
         const res = await response.json()
 
         if(response.status === 409) {
-          setMeesage(res.message);
-        } 
-        else if (response.status === 200){
-          e.target.reset()   
-          setMeesage(res.message);
-        }
-        else {
-          setMeesage(res.message);
+          setMessage(res.message);
+        } else if (response.status === 200){
+          reset()
+          setMessage(res.message);
+        } else {
+          setMessage(res.message);
         }
     }
     
   const getProductCategories = async() => {
 
-    const url = `https://data-base-api.herokuapp.com/admin/get_product_categories`;
+    const url = `http://localhost:5432/admin/get_product_categories`;
     const response = await fetch(url,{
         method: 'POST',
         credentials: 'omit',
@@ -52,12 +50,11 @@ const Adder = (props) => {
 
   useEffect(() => {
     setToAdd(props.name);
-    setMeesage("")
+    setMessage("")
     reset()
-    if(productCategories.lenght !== 0){
-      getProductCategories();
-  } 
-  }, [props.name, reset, productCategories.lenght])
+    getProductCategories();
+
+  }, [props.name])
 
     return (
         

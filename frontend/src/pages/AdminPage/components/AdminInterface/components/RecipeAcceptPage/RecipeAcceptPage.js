@@ -6,7 +6,7 @@ const RecipePage = () => {
     const [recipes, setRecipes] = useState([])
 
     const getRecipes = async() =>{
-        const url = 'https://data-base-api.herokuapp.com/recipes/get_recipes';
+        const url = 'http://localhost:5432/recipes/get_recipes';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -18,13 +18,11 @@ const RecipePage = () => {
 
     }
     useEffect(() => {
-        if(recipes.lenght !== 0){
-            getRecipes();
-        } 
-      },[recipes.lenght]);
+        getRecipes();
+      },[]);
 
     const acceptRecipe = async(id) => {
-        const url = `https://data-base-api.herokuapp.com/recipes/accept_recipe?id_recipe=${id}`;
+        const url = `http://localhost:5432/recipes/accept_recipe?id_recipe=${id}`;
         const response = await fetch(url,{
             method: 'GET',
             credentials: 'omit',
@@ -35,7 +33,7 @@ const RecipePage = () => {
     }
 
     const rejectRecipe = async(id) => {
-        const url = `https://data-base-api.herokuapp.com/recipes/reject_recipe?id_recipe=${id}`;
+        const url = `http://localhost:5432/recipes/reject_recipe?id_recipe=${id}`;
         const response = await fetch(url,{
             method: 'GET',
             credentials: 'omit',

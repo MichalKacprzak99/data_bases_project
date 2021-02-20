@@ -8,7 +8,7 @@ const ForumPage = ({ match }) => {
     const [forumTopics, setForumTopics] = useState([])
 
     const getForumTopics = async() =>{
-      const url = 'https://data-base-api.herokuapp.com/forum/get_topics';
+      const url = 'http://localhost:5432/forum/get_topics';
       const response = await fetch(url,{
         method: 'GET',
         credentials: 'omit',
@@ -23,10 +23,8 @@ const ForumPage = ({ match }) => {
     }
 
     useEffect(() => {
-      if(forumTopics.lenght !== 0){
         getForumTopics();
-      }
-    }, [forumTopics.lenght])
+    }, [])
 
     const RenderTopics = () => {
       return <Table>

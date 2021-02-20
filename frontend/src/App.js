@@ -10,7 +10,7 @@ const App = () => {
   const initUseritem = localStorage.getItem('isLogged') || 'false';
   const [isLogged, setLogged] = useState(initUseritem)
 
-  window.addEventListener('storage',  () => { 
+  window.addEventListener('storage',  () => {
     setLogged(localStorage.getItem('isLogged') );
   });
 
@@ -37,7 +37,7 @@ const App = () => {
         <Switch>
             <Route exact path='/' component={HomePage} />
             <Route  path='/forum' component={ForumPage} />
-            <Route  path='/login' component={LoginPage} />        
+            <Route  path='/login' render={()=> {return <LoginPage setLogged={setLogged} isLogged={isLogged}/>} }/>
             <Route  path='/register' component={RegisterPage} />
             <Route path='/user' component={UserPage} />
             <Route path='/admin'  component={AdminPage} />

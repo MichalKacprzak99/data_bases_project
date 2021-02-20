@@ -3,13 +3,13 @@ import React, {useState} from 'react';
 import { useForm } from "react-hook-form";
 import {Redirect} from "react-router-dom";
 import { Form, Header, Button} from './LoginPage.css';
-const LoginPage = () => {
-    const [message, setMeesage] = useState("")
-    const { register, handleSubmit} = useForm();
-    const [isLogin, setLogin] = useState(localStorage.getItem('isLogged'))
+const LoginPage = ({setLogged, isLogged}) => {
+    const [message, setMessage] = useState("")
+    const { register, handleSubmit, reset} = useForm();
+
 
     const handleLogin = async (data, e) => {
-        const url = 'https://data-base-api.herokuapp.com/user/login';
+        const url = 'http://localhost:5432/user/login';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -19,19 +19,19 @@ const LoginPage = () => {
         const res = await response.json()
 
         if(response.status === 409) {
-          setMeesage(res.message);
+          setMessage(res.message);
         } 
         else if (response.status === 200){
-          e.target.reset()   
+          reset()
           localStorage.setItem('token', res.token);
           localStorage.setItem('isLogged', 'true');
-          window.dispatchEvent( new Event('storage') );
-          setLogin(localStorage.getItem('isLogged'))
+          setLogged('true')
         }
         else {
-          setMeesage(res.message);
+          setMessage(res.message);
         }
     }
+
     return (
     <>
         <Form onSubmit={handleSubmit(handleLogin)} >
@@ -43,7 +43,7 @@ const LoginPage = () => {
             <Button type="submit">Zaloguj</Button>      
             <p>{message}</p>
         </Form>
-        { isLogin==='true' ? <Redirect to="/" /> : null  }
+        { isLogged==='true' ? <Redirect to="/user" /> : null  }
     </> 
     )
 }

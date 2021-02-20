@@ -8,7 +8,7 @@ const TrackedProducts = () => {
     const [message, setMessage] = useState("")
     const [trackedProducts, setTrackedProducts] = useState([])
     const getInfo = async(setter, category) => {
-        const url = 'https://data-base-api.herokuapp.com/user/get_info';
+        const url = 'http://localhost:5432/user/get_info';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -25,7 +25,7 @@ const TrackedProducts = () => {
 
     const addTrackedProduct = async(data) => {
         data["token"] = localStorage.getItem('token')
-        const url = 'https://data-base-api.herokuapp.com/user/add_tracked_product';
+        const url = 'http://localhost:5432/user/add_tracked_product';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -42,7 +42,7 @@ const TrackedProducts = () => {
     }
 
     const getTrackedProducts = async() => {
-        const url = 'https://data-base-api.herokuapp.com/user/get_tracked_products';
+        const url = 'http://localhost:5432/user/get_tracked_products';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -55,13 +55,9 @@ const TrackedProducts = () => {
     }
 
     useEffect(() => {
-        if(availableProducts.lenght !== 0){
-            getInfo(setAvailableProducts, "produkt")
-        } 
-        if(trackedProducts.lenght !== 0){
-            getTrackedProducts()
-        }
-    },[availableProducts.lenght, trackedProducts.lenght]);
+      getInfo(setAvailableProducts, "produkt")
+      getTrackedProducts()
+    },[]);
 
 
     const RenderTrackedProductsTable = () => {

@@ -5,7 +5,7 @@ const UsersController = () => {
   const [usersData, setUsersData] = useState(null)
 
   const getUsersInfo = async() => {
-    const url = 'https://data-base-api.herokuapp.com/admin/get_users';
+    const url = 'http://localhost:5432/admin/get_users';
     const response = await fetch(url,{
         method: 'POST',
         credentials: 'omit',
@@ -20,7 +20,7 @@ const UsersController = () => {
   }
 
   const handleBlocking = async(e, toBlock) => {
-    const url = 'https://data-base-api.herokuapp.com/admin/user_blocking';
+    const url = 'http://localhost:5432/admin/user_blocking';
     const response = await fetch(url,{
         method: 'POST',
         credentials: 'omit',
@@ -28,14 +28,12 @@ const UsersController = () => {
         body: JSON.stringify({"token": localStorage.getItem('admin-token'), "user_id": Number(e.target.id), "toBlock": toBlock})
     });
     if(response.status === 200) {
-      getUsersInfo();
+      await getUsersInfo();
     } 
 }
 
   useEffect(() => {
-    if(!usersData){
       getUsersInfo()
-    } 
   },[]);
 
   const renderTableHeader = () => {

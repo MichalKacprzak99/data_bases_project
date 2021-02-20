@@ -5,14 +5,14 @@ import {Redirect} from "react-router-dom";
 import { Form, Header, Button} from './AdminLoginPage.css';
 
 const AdminLoginPage = () => {
-  const [message, setMeesage] = useState("")
-  const { register, handleSubmit} = useForm();
+  const [message, setMessage] = useState("")
+  const { register, reset, handleSubmit} = useForm();
   const initAdminItem = localStorage.getItem('isAdminLogged') || 'false';
 
     const [isAdminLogin, setAdminLogin] = useState(initAdminItem)
 
     const handleLogin = async (data, e) => {
-        const url = 'https://data-base-api.herokuapp.com/admin/loginAdmin';
+        const url = 'http://localhost:5432/admin/loginAdmin';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -22,16 +22,16 @@ const AdminLoginPage = () => {
         const res = await response.json()
 
         if(response.status === 409) {
-          setMeesage(res.message);
+          setMessage(res.message);
         } 
         else if (response.status === 200){
-          e.target.reset()   
+          reset()
           localStorage.setItem('admin-token', res.token);
           localStorage.setItem('isAdminLogged', 'true');
           setAdminLogin(localStorage.getItem('isAdminLogged') )
         }
         else {
-          setMeesage(res.message);
+          setMessage(res.message);
         }
     }
     return (

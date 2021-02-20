@@ -4,7 +4,7 @@ import { Form, Header, Button, CategoryChecker} from './RecipeForm.css';
 
 const RecipeForm = () => {
     const productUnits = ["kg", "L", "g"]
-    const { register, handleSubmit} = useForm();
+    const { register, reset, handleSubmit} = useForm();
     const [message, setMessage] = useState("")
     const [recipeCategories, setRecipeCategories] = useState([])
     const [availableProducts, setAvailableProducts] = useState([])
@@ -12,7 +12,7 @@ const RecipeForm = () => {
 
 
     const getInfo = async(setter, category) => {
-        const url = 'https://data-base-api.herokuapp.com/user/get_info';
+        const url = 'http://localhost:5432/user/get_info';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -56,19 +56,13 @@ const RecipeForm = () => {
         setProductAdder(productAdder => [...productAdder,tmpAdder ])
     }
     useEffect(() => {
-        if(recipeCategories.lenght !== 0){
-            getInfo(setRecipeCategories, "kategoria_przepis")
-
-        } 
-        if(availableProducts.lenght !== 0){
-            getInfo(setAvailableProducts, "produkt")
-
-        } 
-      },[recipeCategories.lenght, availableProducts.lenght]);
+        getInfo(setRecipeCategories, "kategoria_przepis")
+        getInfo(setAvailableProducts, "produkt")
+      },);
 
     const addRecipe = async(data, e) => {
         data["token"] = localStorage.getItem('token')
-        const url = 'https://data-base-api.herokuapp.com/recipes/add_recipe';
+        const url = 'http://localhost:5432/recipes/add_recipe';
         const response = await fetch(url,{
             method: 'POST',
             credentials: 'omit',
@@ -79,7 +73,7 @@ const RecipeForm = () => {
         setMessage(res.message);
 
         if (response.status === 200) {
-            e.target.reset()   
+            reset()
             setMessage("Dodano przepis")
         }
 

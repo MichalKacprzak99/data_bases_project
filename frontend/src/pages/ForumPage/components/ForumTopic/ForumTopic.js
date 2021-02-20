@@ -15,7 +15,7 @@ const ForumTopic = () => {
   const { register, handleSubmit} = useForm();
 
     const getComments = async() => {
-    const url = `https://data-base-api.herokuapp.com/forum/get_comments?id_topic=${id}`;
+    const url = `http://localhost:5432/forum/get_comments?id_topic=${id}`;
     const response = await fetch(url,{
         method: 'GET',
         credentials: 'omit',
@@ -31,7 +31,7 @@ const ForumTopic = () => {
     const addComment = async(data) => {
 
       data["token"] = localStorage.getItem('token')
-      const url = `https://data-base-api.herokuapp.com/forum/add_comment?id_topic=${id}`;
+      const url = `http://localhost:5432/forum/add_comment?id_topic=${id}`;
       const response = await fetch(url,{
           method: 'POST',
           credentials: 'omit',
@@ -40,7 +40,7 @@ const ForumTopic = () => {
       });
 
       if (response.status === 200){
-          getComments();
+          await getComments();
       }
 
   }
@@ -80,9 +80,9 @@ const ForumTopic = () => {
     }
 
     useEffect(() => {
-      if(comments.lenght !== 0){
-        getComments();
-      }
+
+      getComments();
+
     }, [])
 
     return (
